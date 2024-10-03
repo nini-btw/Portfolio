@@ -1,28 +1,42 @@
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import { Link } from 'react-router-dom';
-import '../stylesheets/navstyle.css'
+import { HashLink } from "react-router-hash-link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleHalfStroke } from "@fortawesome/free-solid-svg-icons"; // Example icon
+import "../stylesheets/navstyle.css"
+
 
 function NavBar(){
-    return(
-        <>
-        <div className="nav position-relative">
-          <Navbar expand="lg" className="bg-body-tertiary px-5 d-flex justify-content-between" fixed="top" id='nav'>
-              <Link to="/" className='navbar-brand'>Logo</Link>
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse className='flex-grow-0' id="basic-navbar-nav flex-grow-1">
-                <Nav className="me-auto">
-                  <Nav.Link>Home</Nav.Link>
-                  <Nav.Link>About Me</Nav.Link>
-                  <Nav.Link>Projects</Nav.Link>
-                  <Nav.Link>Contact</Nav.Link>
-                </Nav>
-              </Navbar.Collapse>
-          </Navbar>
+  return(
+    <>
+    <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+      <div className="container-fluid">
+        <a className="navbar-brand" href="#">DM</a>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse justify-content-end" id="navbarText">
+            <ul className="navbar-nav">
+              <li className="nav-item">
+                <HashLink smooth to="/#home" className="nav-link active" aria-current="page" href="#">Home</HashLink>
+              </li>
+              <li className="nav-item">
+                <HashLink smooth to="/#aboutMe" className="nav-link active" aria-current="page" href="#">About Me</HashLink>
+              </li>
+              <li className="nav-item">
+                <HashLink smooth to="/#project" className="nav-link active" aria-current="page" href="#">Projects</HashLink>
+              </li>
+              <li className="nav-item">
+                <HashLink smooth to="/#contact" className="nav-link active" aria-current="page" href="#">contact</HashLink>
+              </li>
+            </ul>
         </div>
-        </>
-    )
+          <span className="dl">
+          <button className="icon-button">
+          <FontAwesomeIcon icon={faCircleHalfStroke} />
+          </button>
+          </span>
+      </div>
+    </nav>
+    </>
+  )
 }
-
 export default NavBar;
-
