@@ -5,12 +5,12 @@ import '../stylesheets/navS.sass';
 import logo from '../../images/png/logo.png'
 
 
+
 function NavBar(){
   return(
     <>
-    <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top">
-      <div className="container-fluid">
-        <a className="navbar-brand" href="#" id="navbar-logo">
+    <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top overflow-hidden">
+        <a className="navbar-brand mb-4" href="#" id="navbar-logo">
           <img id="logo" src={logo} alt="Logo" width="100" height="100" />
         </a>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +37,6 @@ function NavBar(){
             <FontAwesomeIcon icon={faCircleHalfStroke} size="2x"/>
           </button>
         </span>
-      </div>
     </nav>
     </>
   )
