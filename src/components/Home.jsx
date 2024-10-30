@@ -1,5 +1,3 @@
-import "../stylesheets/homeStyle.css"
-
 function Home(){
     return(
         <>

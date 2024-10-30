@@ -1,7 +1,8 @@
 import { HashLink } from "react-router-hash-link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleHalfStroke } from "@fortawesome/free-solid-svg-icons"; // Example icon
-import "../stylesheets/navstyle.css"
+import '../stylesheets/navS.sass';
+import logo from '../../images/png/logo.png'
 
 
 function NavBar(){
@@ -9,7 +10,9 @@ function NavBar(){
     <>
     <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">DM</a>
+        <a className="navbar-brand" href="#" id="navbar-logo">
+          <img id="logo" src={logo} alt="Logo" width="100" height="100" />
+        </a>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -29,11 +32,11 @@ function NavBar(){
               </li>
             </ul>
         </div>
-          <span className="dl">
+        <span className="dl">
           <button className="icon-button">
-          <FontAwesomeIcon icon={faCircleHalfStroke} />
+            <FontAwesomeIcon icon={faCircleHalfStroke} size="2x"/>
           </button>
-          </span>
+        </span>
       </div>
     </nav>
     </>

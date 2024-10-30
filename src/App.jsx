@@ -4,7 +4,6 @@ import Navbar from "./components/Navbar"
 import Project from "./components/Project"
 import Contact from "./components/Contact"
 import Foot from "./components/Foot"
-import "./stylesheets/test.css"
 
 function App() {
   return (

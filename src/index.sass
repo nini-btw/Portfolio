@@ -1,0 +1,62 @@
+@import '../src/stylesheets/variables'
+  
+*
+*::after
+*::before 
+  margin: 0
+  padding: 0
+  box-sizing: inherit
+  font-family: inherit 
+
+html 
+  font-size: 62.5%
+  scroll-behavior: smooth 
+  @media only screen and (max-width: $breakpoint-lg) 
+    html 
+      font-size: 59% 
+  @media only screen and (max-width: 56.25em) 
+    html 
+      font-size: 56%
+  @media only screen and (min-width: 112.5em) 
+    html 
+      font-size: 65% 
+
+body 
+  box-sizing: border-box
+  position: relative
+  line-height: 1.5
+  font-family: sans-serif
+  overflow-x: hidden
+  overflow-y: scroll
+  font-family: 'Source Sans Pro', sans-serif  
+
+a 
+  text-decoration: none
+  color: inherit 
+
+li 
+  list-style: none 
+
+input:focus
+button:focus
+a:focus
+textarea:focus 
+  outline: none 
+
+button 
+  border: none
+  cursor: pointer 
+
+textarea 
+  resize: none 
+
+.home
+    margin-top: 5rem
+    width: 100vw
+    height: 100vh
+    background-color: $background-color
+
+.box
+    background-color: red
+    width: 100vw
+    height: 60vh
