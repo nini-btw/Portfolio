@@ -1,0 +1,38 @@
+@use './variables'
+    
+    
+.home
+    @media (max-width: 62rem)
+        flex-direction: columns !important
+    .landing
+        max-width: 62rem
+    margin-top: 8rem
+    height: calc( 100vh - 8rem )
+    width:100vw
+    #landing-header
+        font-size: 6rem
+        text-transform: uppercase
+        letter-spacing: 3px
+        text-align: center
+        color: #111
+        font-weight: 800
+    #landing-text
+        color: #333
+        font-size: 2.2rem
+        text-align: center
+        width: 100%
+        line-height: 1.6
+    .picture
+        position: relative
+    #blob
+        width: 50rem
+        height: 50rem
+        transform: translate(1rem,1rem)
+    #nini
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+        object-fit: cover 
+        pointer-events: none
