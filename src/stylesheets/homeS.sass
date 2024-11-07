@@ -2,37 +2,86 @@
     
     
 .home
-    @media (max-width: 62rem)
-        flex-direction: columns !important
-    .landing
-        max-width: 62rem
     margin-top: 8rem
     height: calc( 100vh - 8rem )
     width:100vw
+    @media (max-width:variables.$breakpoint-md) 
+        flex-direction: column !important
+        @media (max-width:variables.$breakpoint-sm)
+            margin-top: 5rem
+    .landing
+        max-width: 62rem
+        min-width: 48rem
+        @media (max-width:variables.$breakpoint-md) 
+            order: 2
+        @media (max-width:variables.$breakpoint-sm)
+            margin-top: -20rem
     #landing-header
-        font-size: 6rem
+        font-size: 4rem
         text-transform: uppercase
-        letter-spacing: 3px
+        letter-spacing: 1px
         text-align: center
         color: #111
         font-weight: 800
+        @media (max-width:variables.$breakpoint-sm)
+            font-size: 3rem
+            text-transform: uppercase
+            letter-spacing: 1px 
+            text-align: center
+            color: #111
+            font-weight: 800
     #landing-text
         color: #333
         font-size: 2.2rem
         text-align: center
         width: 100%
         line-height: 1.6
-    .picture
-        position: relative
-    #blob
-        width: 50rem
-        height: 50rem
-        transform: translate(1rem,1rem)
-    #nini
-        position: absolute
-        top: 0
-        left: 0
-        width: 100%
-        height: 100%
-        object-fit: cover 
-        pointer-events: none
+        @media (max-width:variables.$breakpoint-sm)
+            color: #333
+            font-size: 1.5rem
+            text-align: center
+            width: 100%
+            line-height: 1.6
+
+.picture
+    margin-top: 10rem
+    display: flex
+    align-items: center
+    justify-content: center
+    margin-bottom: 12rem
+    margin-right: 3rem
+    @media (max-width:variables.$breakpoint-md) 
+        order: 1
+    @media (max-width:variables.$breakpoint-sm)
+        margin-top: -8rem
+        transform: scale(.7)
+.profile
+    background-color: #3232df
+    width: 400px
+    height: 400px
+    margin: 2rem auto
+    display: flex
+    align-items: center
+    justify-content: center
+    border-radius: 34% 57% 33% 46% / 30% 39% 44% 56% 
+    position: relative
+.profile img
+    position: absolute
+    bottom: 0rem
+
+.blob
+    display: flex
+    align-items: center
+    justify-content: center
+    border-radius: 34% 57% 33% 46% / 30% 39% 44% 56%
+    overflow: hidden
+    width: 400px
+    height: 400px
+    padding-bottom: 0rem
+    padding-top: 8rem
+    box-sizing: content-box
+    margin-right: 4rem
+         
+
+
+

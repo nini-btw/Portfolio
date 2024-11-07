@@ -1,7 +1,7 @@
-@import '../src/stylesheets/variables'
+@use '../src/stylesheets/variables'
   
-*
-*::after
+*,
+*::after,
 *::before 
   margin: 0
   padding: 0
@@ -11,7 +11,8 @@
 html 
   font-size: 62.5%
   scroll-behavior: smooth 
-  @media only screen and (max-width: $breakpoint-lg) 
+  overflow-x: hidden 
+  @media only screen and (max-width: variables.$breakpoint-lg) 
     html 
       font-size: 59% 
   @media only screen and (max-width: 56.25em) 
@@ -26,8 +27,7 @@ body
   position: relative
   line-height: 1.5
   font-family: sans-serif
-  overflow-x: hidden
-  overflow-y: scroll
+  overflow: hidden
   font-family: 'Source Sans Pro', sans-serif  
 
 a 
@@ -37,9 +37,9 @@ a
 li 
   list-style: none 
 
-input:focus
-button:focus
-a:focus
+input:focus,
+button:focus,
+a:focus,
 textarea:focus 
   outline: none 
 
@@ -54,3 +54,7 @@ textarea
     background-color: red
     width: 100vw
     height: 60vh
+#aboutMe
+      background-color: #fafafa
+      padding-top: 5rem
+      margin-bottom: -5rem

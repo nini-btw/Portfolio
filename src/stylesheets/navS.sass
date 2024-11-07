@@ -1,11 +1,11 @@
-@import './variables.sass'
+@use './variables.sass'
     
 $primary-color: #1248c6 
 
 .dl    
-    @media (max-width:$breakpoint-lg) 
+    @media (max-width:variables.$breakpoint-lg) 
         position: relative
-    @media (max-width:$breakpoint-md) 
+    @media (max-width:variables.$breakpoint-md) 
         position: fixed
         right: 2rem
         bottom: 2rem
@@ -22,7 +22,7 @@ $primary-color: #1248c6
 .navbar
     padding: 1rem 5rem!important
     z-index: 1000
-    background-color: $background-color 
+    background-color: variables.$background-color 
     box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1)
 
 
@@ -40,7 +40,7 @@ $primary-color: #1248c6
     #navbarText
         margin-right: 1rem
     #navbar-logo
-        @media (max-width:$breakpoint-md)
+        @media (max-width:variables.$breakpoint-md)
             transform: scale(.8)
             position: relative
             top: -2rem
@@ -54,7 +54,7 @@ $primary-color: #1248c6
     position: absolute
     top: -0.5rem
     left: 9rem
-    @media (max-width:$breakpoint-md) 
+    @media (max-width:variables.$breakpoint-md) 
         position: absolute
         position: absolute
         top: -1.5rem
@@ -65,12 +65,13 @@ $primary-color: #1248c6
 .nav-item a
     padding: 0
     &:hover
-        color: $primary-color !important
+        color: variables.$primary-color !important
 button .navbar-toggler
     position: absolute
     top: 1.5rem
     right: 2rem
-    @media (max-width:$breakpoint-md)
+    @media (max-width:variables.$breakpoint-md)
         position: absolute
         top: 1rem
         right: 2rem
+        top: 2rem

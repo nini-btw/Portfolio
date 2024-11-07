@@ -1,13 +1,11 @@
 import '../stylesheets/homeS.sass'
-import blob from '../../images/svg/blob.svg'
-//import nini from '../../images/png/20230615_182139-removebg-preview.png'
-//import ClippedImage from './ClippedImage';
+import nini from '../../images/png/20230615_182139-removebg-preview.png'
 
 
 function Home(){
     return(
         <>
-        <div className="overflow-hidden home d-flex justify-content-center align-items-center">
+        <div className="overflow-hidden mx-2 home d-flex justify-content-around align-items-center">
             <div className="landing">
                 <h1 id='landing-header'>
                     Hey, I&apos;m Mohammed Denideni
@@ -17,7 +15,11 @@ function Home(){
                 </p>
             </div>
             <div className="picture">
-               <img id='blob' src={blob} alt="" />
+                <div className="blob">
+                    <div className="profile">
+                        <img src={nini} alt="" />
+                    </div>
+                </div>
             </div>
         </div>
         <div className="social">
