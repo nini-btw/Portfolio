@@ -15,7 +15,7 @@ function Project() {
           </span>
         </h2>
       </header>
-      <div className="section swiper-container d-flex align-items-center justify-content-center">
+      <div className="section swiper-container">
         <SwiperC />
       </div>
     </>
