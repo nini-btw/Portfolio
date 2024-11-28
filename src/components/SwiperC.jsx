@@ -2,9 +2,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import {
   Navigation,
   Pagination,
-  Scrollbar,
   A11y,
   EffectCoverflow,
+  Autoplay,
 } from "swiper/modules";
 
 import "swiper/css";
@@ -13,38 +13,33 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade"; // Import CSS for fade effect
 
 function SwiperC() {
-  let imgS = "https://placehold.co/900x500";
   return (
     <Swiper
-      modules={[Navigation, Pagination, Scrollbar, A11y, EffectCoverflow]} // Include EffectFade module
-      effect="coverflow" // Set the effect to fade
-      spaceBetween={50}
-      slidesPerView={3}
+      modules={[EffectCoverflow, Pagination, A11y, Navigation, Autoplay]}
+      effect={"coverflow"}
+      centeredSlides={true}
+      slidesPerView={"auto"}
+      coverflowEffect={{
+        rotate: 50,
+        stretch: 0,
+        depth: 100,
+        modifier: 1,
+        slideShadows: true,
+      }}
+      pagination={true}
+      className="mySwiper"
+      loop
       navigation
-      pagination={{ clickable: true }}
-      onSwiper={(swiper) => console.log(swiper)}
-      onSlideChange={() => console.log("slide change")}
+      autoplay={{
+        delay: 1000,
+        pauseOnMouseEnter: true,
+      }}
     >
-      <SwiperSlide className="d-flex align-items-center justify-content-center">
-        <img src={imgS} alt="" />
+      <SwiperSlide>
+        <img src="../../images/project/screenshot (5).png" />
       </SwiperSlide>
-      <SwiperSlide className="d-flex align-items-center justify-content-center">
-        <img src={imgS} alt="" />
-      </SwiperSlide>
-      <SwiperSlide className="d-flex align-items-center justify-content-center">
-        <img src={imgS} alt="" />
-      </SwiperSlide>
-      <SwiperSlide className="d-flex align-items-center justify-content-center">
-        <img src={imgS} alt="" />
-      </SwiperSlide>
-      <SwiperSlide className="d-flex align-items-center justify-content-center">
-        <img src={imgS} alt="" />
-      </SwiperSlide>
-      <SwiperSlide className="d-flex align-items-center justify-content-center">
-        <img src={imgS} alt="" />
-      </SwiperSlide>
-      <SwiperSlide className="d-flex align-items-center justify-content-center">
-        <img src={imgS} alt="" />
+      <SwiperSlide>
+        <img src="../../images/project/screenshot (4).png" />
       </SwiperSlide>
     </Swiper>
   );
