@@ -2,19 +2,16 @@ import "swiper/css";
 import SwiperC from "./SwiperC";
 
 import "../stylesheets/projectS.sass";
+import SectionHeader from "./subComponents/SectionHeader";
 
 function Project() {
   return (
     <>
-      <header className="text-center">
-        <h2 className="heading heading-sec heading-sec__mb-med">
-          <span className="heading-sec__main">About Me</span>
-          <span className="heading-sec__sub">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic facilis
-            tempora explicabo quae quod deserunt eius sapiente
-          </span>
-        </h2>
-      </header>
+      <SectionHeader
+        title="Projects "
+        subtitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic facilis
+                  tempora explicabo quae quod deserunt eius sapiente "
+      />
       <div className="section swiper-container">
         <SwiperC />
       </div>

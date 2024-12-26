@@ -1,0 +1,36 @@
+.footer
+  height: 7rem
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding: 2rem 3rem
+  background-color: #fff
+  color: #333 // Dark text color for contrast
+  font-size: 1rem
+  border-top: 1px solid #ddd // Subtle border for separation
+
+  .footer-left
+    p
+      margin: 0
+      color: #333 // Ensure text matches the dark theme
+      font-size: 1.5rem
+
+  .footer-right
+    display: flex
+    gap: 2rem
+
+    a
+      color: #333
+      font-size: 2rem
+      transition: transform 0.2s, color 0.2s
+      transform: scale(2)
+      &.facebook:hover
+        color: #1877f2 !important// Facebook blue
+      &.twitter:hover
+        color: #1da1f2 !important // Twitter blue
+      &.linkedin:hover
+        color: #0a66c2 !important// LinkedIn blue
+      &.github:hover
+        color: #000  !important// GitHub dark black
+      &:hover
+        transform: scale(2.3)
