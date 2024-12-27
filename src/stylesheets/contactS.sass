@@ -5,10 +5,9 @@
     border-radius: 1rem
     padding: 1rem
     overflow: hidden
-header
-    color: #fff
-    @media (min-width: 768px)
-        margin-top: -2rem
+    header
+        @media (min-width: 768px)
+            margin-top: -2rem
 
 .info, .form
     width: 100%
@@ -20,8 +19,8 @@ header
     max-width: fit-content
     min-width: fit-content
     color: #fff
-    @media (min-width: 768px)
-        display: none
+    @media (max-width: 768px)
+        width: 90vw !important
     p
         color: #ccc
     li
@@ -50,3 +49,5 @@ header
             font-size: 2rem
         input,textarea
             font-size: 2rem
+            line-height: 2rem
+            padding-top: 1rem

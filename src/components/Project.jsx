@@ -9,8 +9,7 @@ function Project() {
     <>
       <SectionHeader
         title="Projects "
-        subtitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic facilis
-                  tempora explicabo quae quod deserunt eius sapiente "
+        subtitle="Lorem ipsum dolor sit amet consectetur adipisicinge "
       />
       <div className="section swiper-container">
         <SwiperC />

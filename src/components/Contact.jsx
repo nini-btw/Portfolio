@@ -74,7 +74,9 @@ function Contact() {
 
   return (
     <section className="contact-section">
-      <SectionHeader title="Contact" />
+      <div className="c">
+        <SectionHeader title="Contact" />
+      </div>
       <Container>
         <section className="d-flex justify-content-center align-items-center">
           <Row className="content justify-content-center align-items-start">
@@ -170,7 +172,14 @@ function Contact() {
                       />
                     </Col>
                   </Row>
-                  {error && <p style={{ color: "red" }}>{error}</p>}{" "}
+                  {error && (
+                    <p
+                      className="er p-0 m-0"
+                      style={{ margin: "auto", color: "red" }}
+                    >
+                      {error}
+                    </p>
+                  )}{" "}
                   {/* Show error if validation fails */}
                   <Row className="d-flex justify-content-center mt-3">
                     <Col md="9" className="text-center">
@@ -178,7 +187,7 @@ function Contact() {
                         type="submit"
                         variant="contained"
                         sx={{
-                          marginTop: "2rem",
+                          marginTop: "0rem",
                           fontSize: "2rem",
                           width: "100%",
                           backgroundColor: "#1976D2",

@@ -10,7 +10,7 @@ import {
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "swiper/css/effect-fade"; // Import CSS for fade effect
+import "swiper/css/effect-coverflow"; // Corrected import for coverflow effect
 
 function SwiperC() {
   return (
@@ -26,21 +26,34 @@ function SwiperC() {
         modifier: 1,
         slideShadows: true,
       }}
-      pagination={true}
-      className="mySwiper"
-      loop
+      pagination={{ clickable: true }}
       navigation
       autoplay={{
-        delay: 1000,
-        pauseOnMouseEnter: true,
+        delay: 3000,
+        disableOnInteraction: true, // Stops autoplay on user interaction
+        pauseOnMouseEnter: true, // Stops autoplay when hovered
       }}
+      className="mySwiper"
     >
       <SwiperSlide>
-        <img src="../../images/project/screenshot (5).png" />
+        <img src="../../images/project/screenshot (5).png" alt="Project 1" />
       </SwiperSlide>
       <SwiperSlide>
-        <img src="../../images/project/screenshot (4).png" />
+        <img src="../../images/project/screenshot (4).png" alt="Project 2" />
       </SwiperSlide>
+      <SwiperSlide>
+        <img src="../../images/project/screenshot (5).png" alt="Project 1" />
+      </SwiperSlide>
+      <SwiperSlide>
+        <img src="../../images/project/screenshot (4).png" alt="Project 2" />
+      </SwiperSlide>
+      <SwiperSlide>
+        <img src="../../images/project/screenshot (5).png" alt="Project 1" />
+      </SwiperSlide>
+      <SwiperSlide>
+        <img src="../../images/project/screenshot (4).png" alt="Project 2" />
+      </SwiperSlide>
+      {/* Add more slides as needed */}
     </Swiper>
   );
 }
