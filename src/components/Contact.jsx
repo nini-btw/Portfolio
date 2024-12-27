@@ -48,6 +48,7 @@ function Contact() {
   // Send form data to email using EmailJS
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevent page reload
+    console.log(formData);
 
     if (validateForm()) {
       // Send the email via EmailJS
