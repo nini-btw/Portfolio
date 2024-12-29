@@ -108,6 +108,7 @@ function Contact() {
                   Oran, Algeria
                 </li>
               </ul>
+              <div className="round"></div>
             </Col>
             <Col md={8} xs={12} className="form">
               <div className="form d-flex flex-column p-4">

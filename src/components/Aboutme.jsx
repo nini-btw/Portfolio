@@ -8,9 +8,9 @@ function Aboutme() {
       <Container className="aboutme d-flex flex-dir align-items-center flex-column">
         <SectionHeader
           title="About Me"
-          subtitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic facilis
-            tempora explicabo quae quod deserunt eius sapiente "
+          subtitle="A passionate developer dedicated to creating innovative solutions."
         />
+
         <section className="d-flex justify-content-center align-items-center">
           <Row className="">
             <Col

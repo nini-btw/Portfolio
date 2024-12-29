@@ -8,8 +8,8 @@ function Project() {
   return (
     <>
       <SectionHeader
-        title="Projects "
-        subtitle="Lorem ipsum dolor sit amet consectetur adipisicinge "
+        title="Projects"
+        subtitle="Explore some of the applications and tools I've developed."
       />
       <div className="section swiper-container">
         <SwiperC />

@@ -12,6 +12,7 @@
 .info, .form
     width: 100%
     flex-basis: 1
+    position: relative
 .info
     background-color: #1976D2
     border-radius: 1rem
@@ -19,6 +20,8 @@
     max-width: fit-content
     min-width: fit-content
     color: #fff
+    overflow: hidden
+    z-index: 3
     @media (max-width: 768px)
         width: 90vw !important
     p
@@ -28,6 +31,7 @@
     h4
         font-size: 3rem
     .list 
+        margin-bottom: 10rem
         text-align: left
         >li
             padding: 1rem
@@ -51,3 +55,12 @@
             font-size: 2rem
             line-height: 2rem
             padding-top: 1rem
+.round
+    position: absolute
+    width: 27rem
+    height: 27rem
+    background: radial-gradient(circle, #1976D2, #5BA3EC)
+    bottom: -10rem
+    right: -10rem
+    border-radius: 50%
+    z-index: -1

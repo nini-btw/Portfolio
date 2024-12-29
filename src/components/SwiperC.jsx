@@ -33,45 +33,77 @@ function SwiperC() {
       link: "https://ahpcalcul.netlify.app/",
       github: "https://github.com/nini-btw/hap",
       mockup: "../../images/png/mockup/all-devices-white-ahp.png",
+      screenshots: [
+        "../../images/png/screenshots/hap/Screenshot_2024-12-28_22-00-45.png",
+        "../../images/png/screenshots/hap/Screenshot_2024-12-28_21-16-44.png",
+        "../../images/png/screenshots/hap/Screenshot_2024-12-28_21-17-10.png",
+        "../../images/png/screenshots/hap/4.png",
+      ],
     },
     {
       id: 2,
       name: "Calculator",
-      description: "Description of Project 2",
-      image:
-        "../../images/png/screenshots/calculator/Screenshot_2024-12-29_00-38-14.png",
-      tech: ["html", "java script", "css"],
+      description:
+        "A simple yet functional calculator built with HTML, CSS, and JavaScript, featuring a sleek design with both light and dark mode options. This project showcases DOM manipulation skills and provides a seamless user experience for basic arithmetic operations.",
+      image: "../../images/png/screenshots/calculator/screenshot (4).png",
+      tech: ["html", "css", "java script"],
       link: "https://nini-btw.github.io/Calculator/",
       github: "https://github.com/nini-btw/Calculator",
-      mockup: "../../images/png/mockup/all-devices-white (2).png",
+      mockup: "../../images/png/mockup/all-devices-white-calc.png",
+      screenshots: [
+        "../../images/png/screenshots/calculator/screenshot (11).png",
+        "../../images/png/screenshots/calculator/screenshot (4).png",
+        "../../images/png/screenshots/calculator/screenshot (4).png",
+        "../../images/png/screenshots/calculator/screenshot (11).png",
+      ],
     },
     {
       id: 3,
-      name: "Project 1",
+      name: "Leon",
       description: "Description of Project 1",
-      image: "../../images/project/screenshot (5).png",
-      tech: ["javascript", "sass", "react"],
+      image: "../../images/png/screenshots/template2/screenshot (6).png",
+      tech: ["html", "css"],
+      link: "https://nini-btw.github.io/Template-01/",
+      github: "https://github.com/nini-btw/Template-01",
+      mockup: "../../images/png/mockup/all-devices-white-templat-2.png",
+      screenshots: [
+        "../../images/png/screenshots/template2/screenshot (6).png",
+        "../../images/png/screenshots/template2/screenshot (7).png",
+        "../../images/png/screenshots/template2/screenshot (8).png",
+        "../../images/png/screenshots/template2/screenshot (9).png",
+      ],
     },
     {
       id: 4,
-      name: "Project 4",
+      name: "ToDo App",
       description: "Description of Project 2",
-      image: "../../images/project/screenshot (4).png",
-      tech: ["javascript", "sass", "react"],
+      image: "../../images/png/screenshots/calculator/screenshot (5).png",
+      tech: ["html", "css", "java script"],
+      link: "https://nini-btw.github.io/ToDo/",
+      github: "https://github.com/nini-btw/ToDo",
+      mockup: "../../images/png/mockup/all-devices-white-todo.png",
+      screenshots: [
+        "../../images/png/screenshots/calculator/screenshot (5).png",
+        "../../images/png/screenshots/calculator/screenshot (5).png",
+        "../../images/png/screenshots/calculator/screenshot (5).png",
+        "../../images/png/screenshots/calculator/screenshot (5).png",
+      ],
     },
     {
       id: 5,
-      name: "Project 5",
+      name: "Kasper",
       description: "Description of Project 1",
-      image: "../../images/project/screenshot (5).png",
-      tech: ["javascript", "sass", "react"],
-    },
-    {
-      id: 6,
-      name: "Project 6",
-      description: "Description of Project 2",
-      image: "../../images/project/screenshot (4).png",
-      tech: ["javascript", "sass", "react"],
+      image: "../../images/png/screenshots/template1/Kasper.png",
+      tech: ["html", "css"],
+      link: "https://nini-btw.github.io/Template-02/",
+      github: "https://github.com/nini-btw/Template-02",
+      mockup: "../../images/png/mockup/all-devices-white -template-1.png",
+      screenshots: [
+        "../../images/png/screenshots/template1/Kasper.png",
+        "../../images/png/screenshots/template1/screenshot (12).png",
+        "../../images/png/screenshots/template1/screenshot (11).png",
+        "../../images/png/screenshots/template1/screenshot (10).png",
+      ],
     },
     // Add more projects as needed
   ];
@@ -188,30 +220,11 @@ function SwiperC() {
                 </div>
                 <div className={`two ${!showOne ? "visible" : "hidden"}`}>
                   <div className="screenShots">
-                    <div className="sc1">
-                      <img
-                        src="../../images/png/screenshots/hap/Screenshot_2024-12-28_22-00-45.png"
-                        alt="1"
-                      />
-                    </div>
-                    <div className="sc2">
-                      <img
-                        src="../../images/png/screenshots/hap/Screenshot_2024-12-28_21-16-44.png"
-                        alt="2"
-                      />
-                    </div>
-                    <div className="sc3">
-                      <img
-                        src="../../images/png/screenshots/hap/Screenshot_2024-12-28_21-17-10.png"
-                        alt="3"
-                      />
-                    </div>
-                    <div className="sc4">
-                      <img
-                        src="../../images/png/screenshots/hap/4.png"
-                        alt="4"
-                      />
-                    </div>
+                    {overlayContent.screenshots.map((src, index) => (
+                      <div key={index} className={`sc${index + 1}`}>
+                        <img src={src} alt={`Screenshot ${index + 1}`} />
+                      </div>
+                    ))}
                   </div>
                 </div>
               </Col>
