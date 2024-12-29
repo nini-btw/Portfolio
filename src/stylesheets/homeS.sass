@@ -55,6 +55,7 @@
     margin-right: 3rem
     @media (max-width:variables.$breakpoint-md) 
         order: 1
+        margin-top: 0
     @media (max-width:variables.$breakpoint-sm)
         margin-top: -13rem
         transform: scale(.7)
@@ -90,3 +91,31 @@
 
 
 
+.social
+    width: fit-content
+    display: flex
+    gap: 2rem
+    position: absolute
+    left: 2rem
+    top: 40%
+    width: 50rem
+    flex-direction: column
+    @media (max-width:variables.$breakpoint-md)
+        top: 20%
+        left: 90vw
+    a
+      width: fit-content
+      color: #333
+      font-size: 2rem
+      transition: transform 0.2s, color 0.2s
+      transform: scale(2)
+      &.facebook:hover
+        color: #1877f2 !important// Facebook blue
+      &.twitter:hover
+        color: #1da1f2 !important // Twitter blue
+      &.linkedin:hover
+        color: #0a66c2 !important// LinkedIn blue
+      &.github:hover
+        color: #000  !important// GitHub dark black
+      &:hover
+        transform: scale(2.3)

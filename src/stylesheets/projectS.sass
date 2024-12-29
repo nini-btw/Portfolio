@@ -1,3 +1,4 @@
+
 .swiper
   width: 100%
   padding-top: 50px
@@ -5,6 +6,10 @@
   margin-top: -4rem
   width: 100vw
   height: 70vh
+  @media (max-width:992px)   
+    height: 55vh
+  @media (max-width:768px)   
+    height: 43vh
   .swiper-pagination-bullet
     background: #1976d2 !important // Blue accent for pagination
     opacity: 0.8
@@ -24,15 +29,16 @@
   overflow: hidden
   transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out
   cursor: pointer
-  
-
 .swiper-slide img
   display: block
   width: 100%
   height: 100%
   object-fit: fill
+  @media (max-width:992px)   
 .swiper-wrapper
   width: 100vw
+  @media (max-width:992px)   
+    width: 80vw
 .swiper-container
   padding: 0 5rem
   margin: 0 5rem
@@ -50,4 +56,146 @@
   transition: transform 0.3s ease, opacity 0.3s ease
   &:hover
     transform: scale(1.2)
+    opacity: 1
+
+.overlay
+  position: fixed
+  top: 0
+  left: 0
+  width: 100vw
+  height: 100vh
+  background: rgba(0, 0, 0, 0.6) // Semi-transparent background
+  display: flex
+  justify-content: center
+  align-items: center
+  z-index: 1050
+    
+.overlay-content
+  background: #fff
+  width: 95vw
+  height: 95vh
+  border-radius: 1.5rem
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2)
+  padding: 20px
+  position: relative
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+.close-button
+  position: absolute
+  top: 0rem
+  right: 2rem
+  background: none
+  border: none
+  font-size: 24px
+  font-weight: bold
+  cursor: pointer
+  color: #333
+  &:hover
+    color: #ff0000
+
+.overlay-image
+  width: 80%
+  height: auto
+  border-radius: 8px
+  margin-bottom: 20px
+
+
+.projectDescription
+  font-size: 1.5rem
+  padding: 1rem
+  text-align: left
+  gap: 5rem
+  @media (max-width:992px)   
+    gap: 1rem
+  .swiper-container
+    width: 100%
+    height: 100%
+  .name
+      h1
+        font-size: 3rem
+        font-weight: bold
+        @media (max-width:992px)   
+          padding-top: 5rem
+  .list
+    div
+      padding: .5rem 1rem
+      margin-right: 1.5rem
+      font-size: 1.6rem
+      background: rgba(153, 153, 153, 0.2)
+      border-radius: .5rem
+      font-weight: 600
+      color: #777
+  .description
+    text-align: left
+    color: #555
+    @media (max-width:992px)   
+      margin: 0
+  .tech
+    h2
+      font-size: 2rem
+      font-weight: 700
+  .buttons
+    width: 100%
+    button
+      color: #fff
+      padding: 1rem
+      border-radius: 1rem
+      &.git
+        background-color: #000
+      &.view
+        background-color: #1976d2
+
+.screenShots
+  position: relative
+  @media (max-width:992px)   
+    display: none
+  div
+    width: 25vw
+    height: 25vh
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px
+    position: absolute
+    margin: 0
+    padding: 0
+    &.sc1
+      bottom: 25rem
+      right: 15rem
+      z-index: 1
+    &.sc2
+      bottom:0rem
+      right: 15rem
+      z-index: 5
+    &.sc3
+      bottom: 15rem
+      left: 10rem
+      z-index: 3
+    &.sc4
+      bottom: -10rem
+      left: 10rem
+      z-index: 10
+    img
+      border-radius: 1rem 
+      width: 100%
+      height: 100%
+.more
+  width: 100%
+  height: 100%
+  position: inherit
+
+
+.one, .two 
+  opacity: 0
+  transform: scale(0.95)
+  transition: opacity 1s ease, transform 1s ease
+
+
+.one.visible, .two.visible 
+  opacity: 1
+  transform: scale(1)
+
+
+.one.hidden, .two.hidden 
+  transform: scale(0.95)
+  @media (max-width:992px)   
     opacity: 1

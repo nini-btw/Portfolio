@@ -1,5 +1,6 @@
 import "../stylesheets/homeS.sass";
 import nini from "../../images/png/20230615_182139-removebg-preview.png";
+import { Facebook, Twitter, LinkedIn, GitHub } from "@mui/icons-material";
 
 function Home() {
   return (
@@ -21,7 +22,40 @@ function Home() {
           </div>
         </div>
       </div>
-      <div className="social"></div>
+      <div className="social">
+        <a
+          href="https://www.facebook.com/profile.php?id=100080031691371"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="facebook"
+        >
+          <Facebook />
+        </a>
+        <a
+          href="https://x.com/denimohammedela"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="twitter"
+        >
+          <Twitter />
+        </a>
+        <a
+          href="https://www.linkedin.com/in/mohammed-denideni-48a9522b6/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="linkedin"
+        >
+          <LinkedIn />
+        </a>
+        <a
+          href="https://github.com/nini-btw"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="github"
+        >
+          <GitHub />
+        </a>
+      </div>
     </>
   );
 }
