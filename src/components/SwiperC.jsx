@@ -26,7 +26,7 @@ function SwiperC() {
       id: 1,
       name: "HAP",
       description:
-        "The AHP Decision-Making Application is a web-based tool that helps users evaluate and prioritize options through a structured decision-making process. By allowing users to define criteria and sub-criteria, perform pairwise comparisons, and calculate priorities, the app simplifies complex decision-making. It features a user-friendly interface with a clean design, highlighted by a blue color accent. The application demonstrates proficiency in web development, state management with Redux Toolkit, and implementing the Analytic Hierarchy Process for real-world decision-making problems.",
+        "The AHP Decision-Making Application simplifies complex decisions through the Analytic Hierarchy Process. Users can define criteria, perform pairwise comparisons, and calculate priorities. Featuring a clean, blue-accented design and built with Redux Toolkit, it ensures ease of use and efficient state management. This tool is ideal for systematic evaluation and prioritization, showcasing practical web development skills.",
       image:
         "../../images//png/screenshots/hap/Screenshot_2024-12-28_22-00-45.png",
       tech: ["react js", "redux toolkit", "css/sass"],
@@ -60,7 +60,8 @@ function SwiperC() {
     {
       id: 3,
       name: "Leon",
-      description: "Description of Project 1",
+      description:
+        "A sleek and modern web template designed for creative agencies, featuring a minimal and elegant landing page. Built with responsive design principles, it ensures seamless adaptability across all devices. The template highlights clean layouts, bold typography, and smooth transitions to captivate users. Perfect for showcasing portfolios, services, and projects, it offers an immersive experience while maintaining simplicity and professionalism.",
       image: "../../images/png/screenshots/template2/screenshot (6).png",
       tech: ["html", "css"],
       link: "https://nini-btw.github.io/Template-01/",
@@ -76,9 +77,10 @@ function SwiperC() {
     {
       id: 4,
       name: "ToDo App",
-      description: "Description of Project 2",
+      description:
+        "A dynamic and user-friendly to-do app built with Pug.js, JavaScript, and Sass, designed to streamline task management. Featuring task labeling options for personal and work categories, it helps users stay organized and focused. User data is securely stored in the browser storage, ensuring persistence without the need for a backend. The app combines a clean, responsive design with seamless functionality, offering an efficient solution for managing daily tasks.",
       image: "../../images/png/screenshots/calculator/screenshot (5).png",
-      tech: ["html", "css", "java script"],
+      tech: ["pug js", "sass", "java script"],
       link: "https://nini-btw.github.io/ToDo/",
       github: "https://github.com/nini-btw/ToDo",
       mockup: "../../images/png/mockup/all-devices-white-todo.png",
@@ -92,7 +94,8 @@ function SwiperC() {
     {
       id: 5,
       name: "Kasper",
-      description: "Description of Project 1",
+      description:
+        "Kasper is a beautifully crafted landing page built with just HTML and CSS, embodying simplicity and elegance. It captivates users with its clean design and smooth structure. Perfect for showcasing creativity, it offers a professional and responsive layout, ensuring flawless display on all devices. Kasper is a testament to the power of minimalism and the art of web design.",
       image: "../../images/png/screenshots/template1/Kasper.png",
       tech: ["html", "css"],
       link: "https://nini-btw.github.io/Template-02/",

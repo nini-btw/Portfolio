@@ -42,8 +42,8 @@ function Aboutme() {
                     <div className="elements d-flex flex-wrap">
                       <div className="element">HTML</div>
                       <div className="element">CSS</div>
-                      <div className="element">JavaScript</div>
-                      <div className="element">React</div>
+                      <div className="element">JAVA SCRIPT</div>
+                      <div className="element">REACT JS</div>
                       <div className="element">REDUX</div>
                       <div className="element">SASS</div>
                     </div>
