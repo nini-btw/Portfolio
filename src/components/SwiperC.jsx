@@ -83,7 +83,7 @@ function SwiperC() {
       tech: ["pug js", "sass", "java script"],
       link: "https://nini-btw.github.io/ToDo/",
       github: "https://github.com/nini-btw/ToDo",
-      mockup: "../../public/images/all-devices-white-todo.png",
+      mockup: "/../../public/images/all-devices-white-todo.png",
       screenshots: [
         "../../public/images/screenshots/calculator/screenshot (5).png",
         "../../public/images/screenshots/calculator/screenshot (5).png",
