@@ -1,5 +1,5 @@
 import "../stylesheets/homeS.sass";
-import nini from "../../images/png/20230615_182139-removebg-preview.png";
+import nini from "../../public/images/20230615_182139-removebg-preview.png";
 import { Facebook, Twitter, LinkedIn, GitHub } from "@mui/icons-material";
 
 function Home() {

@@ -1,6 +1,6 @@
 import { HashLink } from "react-router-hash-link";
 import "../stylesheets/navS.sass";
-import logo from "../../images/png/logo.png";
+import logo from "../../publicimages/logo.png";
 
 function NavBarP() {
   return (
