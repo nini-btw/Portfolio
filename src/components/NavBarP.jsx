@@ -2,7 +2,7 @@ import { HashLink } from "react-router-hash-link";
 import "../stylesheets/navS.sass";
 import logo from "../../images/png/logo.png";
 
-function NavBar() {
+function NavBarP() {
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top overflow-hidden">
@@ -75,4 +75,4 @@ function NavBar() {
     </>
   );
 }
-export default NavBar;
+export default NavBarP;
