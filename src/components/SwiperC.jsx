@@ -27,8 +27,7 @@ function SwiperC() {
       name: "HAP",
       description:
         "The AHP Decision-Making Application simplifies complex decisions through the Analytic Hierarchy Process. Users can define criteria, perform pairwise comparisons, and calculate priorities. Featuring a clean, blue-accented design and built with Redux Toolkit, it ensures ease of use and efficient state management. This tool is ideal for systematic evaluation and prioritization, showcasing practical web development skills.",
-      image:
-        "../../public/images/screenshots/hap/Screenshot_2024-12-28_22-00-45.png",
+      image: "./images/screenshots/hap/Screenshot_2024-12-28_22-00-45.png",
       tech: ["react js", "redux toolkit", "css/sass"],
       link: "https://ahpcalcul.netlify.app/",
       github: "https://github.com/nini-btw/hap",
@@ -83,7 +82,7 @@ function SwiperC() {
       tech: ["pug js", "sass", "java script"],
       link: "https://nini-btw.github.io/ToDo/",
       github: "https://github.com/nini-btw/ToDo",
-      mockup: "/../../public/images/all-devices-white-todo.png",
+      mockup: "../../public/images/all-devices-white-todo.png",
       screenshots: [
         "../../public/images/screenshots/calculator/screenshot (5).png",
         "../../public/images/screenshots/calculator/screenshot (5).png",
