@@ -31,7 +31,7 @@ function SwiperC() {
       tech: ["react js", "redux toolkit", "css/sass"],
       link: "https://ahpcalcul.netlify.app/",
       github: "https://github.com/nini-btw/hap",
-      mockup: "./images/all-devices-white-ahp.png",
+      mockup: "./images/mockup/all-devices-white-ahp.png",
       screenshots: [
         "./images/screenshots/hap/Screenshot_2024-12-28_22-00-45.png",
         "./images/screenshots/hap/Screenshot_2024-12-28_21-16-44.png",
@@ -48,7 +48,7 @@ function SwiperC() {
       tech: ["html", "css", "java script"],
       link: "https://nini-btw.github.io/Calculator/",
       github: "https://github.com/nini-btw/Calculator",
-      mockup: "./images/all-devices-white-calc.png",
+      mockup: "./images/mockup/all-devices-white-calc.png",
       screenshots: [
         "./images/screenshots/calculator/screenshot (11).png",
         "./images/screenshots/calculator/screenshot (4).png",
@@ -65,7 +65,7 @@ function SwiperC() {
       tech: ["html", "css"],
       link: "https://nini-btw.github.io/Template-01/",
       github: "https://github.com/nini-btw/Template-01",
-      mockup: "./images/all-devices-white-templat-2.png",
+      mockup: "./images/mockup/all-devices-white-templat-2.png",
       screenshots: [
         "./images/screenshots/template2/screenshot (6).png",
         "./images/screenshots/template2/screenshot (7).png",
@@ -82,7 +82,7 @@ function SwiperC() {
       tech: ["pug js", "sass", "java script"],
       link: "https://nini-btw.github.io/ToDo/",
       github: "https://github.com/nini-btw/ToDo",
-      mockup: "./images/all-devices-white-todo.png",
+      mockup: "./images/mockup/all-devices-white-todo.png",
       screenshots: [
         "./images/screenshots/calculator/screenshot (5).png",
         "./images/screenshots/calculator/screenshot (5).png",
@@ -99,7 +99,7 @@ function SwiperC() {
       tech: ["html", "css"],
       link: "https://nini-btw.github.io/Template-02/",
       github: "https://github.com/nini-btw/Template-02",
-      mockup: "./images/all-devices-white -template-1.png",
+      mockup: "./images/mockup/all-devices-white -template-1.png",
       screenshots: [
         "./images/screenshots/template1/Kasper.png",
         "./images/screenshots/template1/screenshot (12).png",
