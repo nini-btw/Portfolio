@@ -31,7 +31,9 @@ function Aboutme() {
                   Let’s work together to turn your ideas into reality!
                 </p>
               </div>
-              <div className="cv">CV</div>
+              <a href="./cv.pdf" target="_blank" rel="noopener noreferrer">
+                <div className="cv">CV</div>
+              </a>
             </Col>
             <Col md={6} xs={12}>
               <div className="description">
