@@ -1,0 +1,165 @@
+.modal-backdrop
+  position: fixed
+  inset: 0
+  background: rgba(0, 0, 0, 0.6)
+  z-index: 1000
+  display: flex
+  align-items: center
+  justify-content: center
+  padding: 2rem
+  overflow-y: auto
+
+.modal-panel
+  background: #fff
+  border-radius: 1.6rem
+  width: 100%
+  max-width: 72rem
+  max-height: 90vh
+  overflow-y: auto
+  padding: 3rem
+  position: relative
+
+  @media (max-width: 768px)
+    padding: 2rem
+    border-radius: 1.2rem
+
+.modal-close
+  position: absolute
+  top: 2rem
+  right: 2rem
+  background: transparent
+  border: none
+  font-size: 2rem
+  cursor: pointer
+  color: #888
+  line-height: 1
+
+  &:hover
+    color: #333
+
+.modal-header
+  display: flex
+  justify-content: space-between
+  align-items: flex-start
+  margin-bottom: 2.4rem
+  gap: 2rem
+
+  @media (max-width: 576px)
+    flex-direction: column
+
+.modal-category
+  font-size: 1.2rem
+  text-transform: uppercase
+  letter-spacing: 0.08em
+  color: #0062b9
+  font-weight: 600
+  display: block
+  margin-bottom: 0.4rem
+
+.modal-title
+  font-size: 2.6rem
+  font-weight: 700
+  color: #222
+  margin: 0
+
+.modal-links
+  display: flex
+  gap: 1rem
+  flex-shrink: 0
+
+.modal-link
+  font-size: 1.4rem
+  padding: 0.8rem 1.6rem
+  border-radius: 0.8rem
+  border: 1px solid #ccc
+  text-decoration: none
+  color: #555
+  transition: all 0.2s
+  white-space: nowrap
+
+  &:hover
+    border-color: #0062b9
+    color: #0062b9
+
+  &--primary
+    background: #0062b9
+    color: #fff
+    border-color: #0062b9
+
+    &:hover
+      background: #004f96
+      color: #fff
+
+.modal-screenshots
+  display: grid
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr))
+  gap: 1.2rem
+  margin-bottom: 2.4rem
+
+.modal-screenshot
+  width: 100%
+  border-radius: 0.8rem
+  border: 1px solid #e8e8e8
+  object-fit: cover
+  aspect-ratio: 16 / 9
+
+.modal-meta
+  display: flex
+  gap: 0
+  border: 1px solid #e8e8e8
+  border-radius: 1rem
+  overflow: hidden
+  margin-bottom: 2.4rem
+
+  @media (max-width: 576px)
+    flex-direction: column
+
+.modal-meta__item
+  flex: 1
+  padding: 1.4rem 1.8rem
+  border-right: 1px solid #e8e8e8
+
+  &:last-child
+    border-right: none
+
+.modal-meta__label
+  display: block
+  font-size: 1.2rem
+  color: #999
+  margin-bottom: 0.4rem
+  text-transform: uppercase
+  letter-spacing: 0.06em
+
+.modal-meta__value
+  font-size: 1.5rem
+  font-weight: 600
+  color: #333
+
+.modal-section
+  margin-bottom: 2rem
+
+.modal-section__title
+  font-size: 1.4rem
+  font-weight: 700
+  color: #0062b9
+  text-transform: uppercase
+  letter-spacing: 0.06em
+  margin-bottom: 0.8rem
+
+.modal-section__text
+  font-size: 1.6rem
+  color: #555
+  line-height: 1.7
+
+.modal-stack
+  display: flex
+  flex-wrap: wrap
+  gap: 0.8rem
+
+.modal-tech
+  font-size: 1.4rem
+  padding: 0.5rem 1.2rem
+  background: #f0f4ff
+  color: #0062b9
+  border-radius: 2rem
+  font-weight: 500

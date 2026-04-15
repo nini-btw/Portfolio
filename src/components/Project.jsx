@@ -1,20 +1,17 @@
-import "swiper/css";
-import SwiperC from "./SwiperC";
+import SectionHeader from './subComponents/SectionHeader'
+import ProjectGrid from './ProjectGrid'
+import '../stylesheets/projectS.sass'
 
-import "../stylesheets/projectS.sass";
-import SectionHeader from "./subComponents/SectionHeader";
-
-function Project() {
+export default function Project() {
   return (
-    <>
-      <SectionHeader
-        title="Projects"
-        subtitle="Explore some of the applications and tools I've developed."
-      />
-      <div className="section swiper-container">
-        <SwiperC />
+    <section id="project" className="project-section">
+      <div className="container">
+        <SectionHeader
+          title="My Projects"
+          subtitle="A selection of things I've built"
+        />
+        <ProjectGrid />
       </div>
-    </>
-  );
+    </section>
+  )
 }
-export default Project;

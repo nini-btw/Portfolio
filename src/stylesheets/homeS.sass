@@ -1,121 +1,188 @@
-@use './variables'
-    
-    
-.home
-    margin-top: 8rem
-    height: calc( 100vh - 8rem )
-    width:100vw
-    @media (max-width:variables.$breakpoint-md) 
-        flex-direction: column !important
-        @media (max-width:variables.$breakpoint-sm)
-            margin-top: 5rem
-    .landing
-        max-width: 62rem
-        min-width: 48rem
-        @media (max-width:variables.$breakpoint-md) 
-            order: 2
-            min-width: 35rem
-        @media (max-width:variables.$breakpoint-sm)
-            margin-top: -17rem
-            padding: 2rem
+.hero-section
+  min-height: 100vh
+  display: flex
+  align-items: center
+  background: #f8f9fc
+  padding: 10rem 0 6rem
+  position: relative
+  overflow: hidden
 
-    #landing-header
-        font-size: 4rem
-        text-transform: uppercase
-        letter-spacing: 1px
-        text-align: center
-        color: #111
-        font-weight: 800
-        @media (max-width:variables.$breakpoint-sm)
-            font-size: 3rem
-            text-transform: uppercase
-            letter-spacing: 1px 
-            text-align: center
-            color: #111
-            font-weight: 800
-    #landing-text
-        color: #333
-        font-size: 2.2rem
-        text-align: center
-        width: 100%
-        line-height: 1.6
-        @media (max-width:variables.$breakpoint-sm)
-            color: #333
-            font-size: 1.5rem
-            text-align: center
-            width: 100%
-            line-height: 1.6
-
-.picture
-    margin-top: 10rem
-    display: flex
-    align-items: center
-    justify-content: center
-    margin-bottom: 12rem
-    margin-right: 3rem
-    @media (max-width:variables.$breakpoint-md) 
-        order: 1
-        margin-top: 0
-    @media (max-width:variables.$breakpoint-sm)
-        margin-top: -13rem
-        transform: scale(.7)
-        margin-bottom: -1rem
-
-.profile
-    background-color: #3232df
-    width: 400px
-    height: 400px
-    margin: 2rem auto
-    display: flex
-    align-items: center
-    justify-content: center
-    border-radius: 34% 57% 33% 46% / 30% 39% 44% 56% 
-    position: relative
-.profile img
+  &::before
+    content: ''
     position: absolute
-    bottom: 0rem
+    top: -10rem
+    right: -10rem
+    width: 60rem
+    height: 60rem
+    border-radius: 50%
+    background: radial-gradient(circle, rgba(0,98,185,0.07) 0%, transparent 70%)
+    pointer-events: none
 
-.blob
-    display: flex
-    align-items: center
+.hero-inner
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: 6rem
+
+  @media (max-width: 768px)
+    flex-direction: column-reverse
+    text-align: center
+    gap: 4rem
+
+.hero-text
+  max-width: 54rem
+
+.hero-label
+  display: inline-block
+  font-size: 1.3rem
+  font-weight: 600
+  letter-spacing: 0.1em
+  text-transform: uppercase
+  color: #0062b9
+  background: rgba(0,98,185,0.08)
+  padding: 0.5rem 1.2rem
+  border-radius: 2rem
+  margin-bottom: 2rem
+
+.hero-heading
+  font-size: 5rem
+  font-weight: 900
+  color: #111
+  line-height: 1.1
+  margin-bottom: 2rem
+
+  &--name
+    color: #0062b9
+
+  @media (max-width: 992px)
+    font-size: 4rem
+
+  @media (max-width: 576px)
+    font-size: 3.2rem
+
+.hero-sub
+  font-size: 1.8rem
+  color: #555
+  line-height: 1.75
+  margin-bottom: 3.2rem
+  max-width: 46rem
+
+  @media (max-width: 768px)
+    margin: 0 auto 3.2rem
+
+.hero-actions
+  display: flex
+  gap: 1.6rem
+  margin-bottom: 3.2rem
+
+  @media (max-width: 768px)
     justify-content: center
-    border-radius: 34% 57% 33% 46% / 30% 39% 44% 56%
+
+.hero-btn
+  font-size: 1.6rem
+  font-weight: 600
+  padding: 1.2rem 3rem
+  border-radius: 0.8rem
+  text-decoration: none
+  transition: all 0.2s ease
+  display: inline-block
+
+  &--primary
+    background: #0062b9
+    color: #fff
+    border: 2px solid #0062b9
+
+    &:hover
+      background: #004f96
+      border-color: #004f96
+      color: #fff
+      transform: translateY(-2px)
+
+  &--secondary
+    background: transparent
+    color: #0062b9
+    border: 2px solid #0062b9
+
+    &:hover
+      background: #0062b9
+      color: #fff
+      transform: translateY(-2px)
+
+.hero-socials
+  display: flex
+  gap: 1.6rem
+
+  @media (max-width: 768px)
+    justify-content: center
+
+  a
+    color: #888
+    transition: color 0.2s
+
+    &:hover
+      color: #0062b9
+
+.hero-photo
+  flex-shrink: 0
+  position: relative
+  width: 34rem
+  height: 34rem
+
+  @media (max-width: 992px)
+    width: 28rem
+    height: 28rem
+
+  @media (max-width: 768px)
+    width: 22rem
+    height: 22rem
+
+  &__frame
+    width: 100%
+    height: 100%
+    border-radius: 50%
     overflow: hidden
-    width: 400px
-    height: 400px
-    padding-bottom: 0rem
-    padding-top: 8rem
-    box-sizing: content-box
-    margin-right: 4rem
-         
+    border: 4px solid #0062b9
+    position: relative
+    z-index: 2
+    background: #e6f1fb
 
+  &__img
+    width: 100%
+    height: 100%
+    object-fit: cover
+    object-position: center 40%
+    display: block
 
-
-.social
-    width: fit-content
-    display: flex
-    gap: 2rem
+  &__ring
     position: absolute
-    left: 2rem
-    top: 40%
-    width: 50rem
-    flex-direction: column
-    @media (max-width:variables.$breakpoint-md)
-        top: 20%
-        left: 90vw
-    a
-      width: fit-content
-      color: #333
-      font-size: 2rem
-      transition: transform 0.2s, color 0.2s
-      transform: scale(2)
-      &.facebook:hover
-        color: #1877f2 !important// Facebook blue
-      &.twitter:hover
-        color: #1da1f2 !important // Twitter blue
-      &.linkedin:hover
-        color: #0a66c2 !important// LinkedIn blue
-      &.github:hover
-        color: #000  !important// GitHub dark black
-      &:hover
-        transform: scale(2.3)
+    inset: -1.2rem
+    border-radius: 50%
+    border: 2px dashed rgba(0,98,185,0.25)
+    animation: spin 20s linear infinite
+    z-index: 1
+
+@keyframes spin
+  to
+    transform: rotate(360deg)
+
+.hero-scroll-hint
+  position: absolute
+  bottom: 3rem
+  left: 50%
+  transform: translateX(-50%)
+
+  span
+    display: block
+    width: 2px
+    height: 4rem
+    background: linear-gradient(to bottom, transparent, #0062b9)
+    margin: 0 auto
+    animation: scrollPulse 1.8s ease-in-out infinite
+
+@keyframes scrollPulse
+  0%, 100%
+    opacity: 0.2
+    transform: scaleY(0.8)
+  50%
+    opacity: 1
+    transform: scaleY(1)

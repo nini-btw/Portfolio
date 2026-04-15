@@ -1,63 +1,88 @@
+import { HashLink } from "react-router-hash-link";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import EmailIcon from "@mui/icons-material/Email";
+import { SOCIAL_LINKS } from "../constants/social";
 import "../stylesheets/homeS.sass";
-import nini from "../../public/images/20230615_182139-removebg-preview.png";
-import { Facebook, Twitter, LinkedIn, GitHub } from "@mui/icons-material";
 
-function Home() {
+export default function Home() {
   return (
-    <>
-      <div className="overflow-hidden mx-2 home d-flex justify-content-around align-items-center">
-        <div className="landing p-3 ps-5">
-          <h1 id="landing-header">Hey, I&apos;m Mohammed Denideni</h1>
-          <p id="landing-text">
-            Driven Full-Stack Developer dedicated to designing and managing
-            seamless web applications and robust backend systems, strategically
-            aligned to ensure product success and user satisfaction.
-          </p>
-        </div>
-        <div className="picture">
-          <div className="blob">
-            <div className="profile">
-              <img src={nini} alt="" />
+    <section id="home" className="hero-section">
+      <div className="container">
+        <div className="hero-inner">
+          <div className="hero-text">
+            <span className="hero-label">
+              Full-Stack Developer · Oran, Algeria
+            </span>
+            <h1 className="hero-heading">
+              Hey, I&apos;m
+              <br />
+              <span className="hero-heading--name">
+                Mohammed
+                <br />
+                Denideni
+              </span>
+            </h1>
+            <p className="hero-sub">
+              I build fast, clean, full-stack web applications using the MERN
+              stack. I care about performance, good UX, and writing code
+              that&apos;s easy to maintain.
+            </p>
+            <div className="hero-actions">
+              <HashLink
+                smooth
+                to="/#contact"
+                className="hero-btn hero-btn--primary"
+              >
+                Hire me
+              </HashLink>
+              <a
+                href="/cv.pdf"
+                download
+                className="hero-btn hero-btn--secondary"
+              >
+                Download CV
+              </a>
             </div>
+            <div className="hero-socials">
+              <a
+                href={SOCIAL_LINKS.github}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="GitHub"
+              >
+                <GitHubIcon sx={{ fontSize: 22 }} />
+              </a>
+              <a
+                href={SOCIAL_LINKS.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="LinkedIn"
+              >
+                <LinkedInIcon sx={{ fontSize: 22 }} />
+              </a>
+              <a href={SOCIAL_LINKS.email} aria-label="Email">
+                <EmailIcon sx={{ fontSize: 22 }} />
+              </a>
+            </div>
+          </div>
+
+          <div className="hero-photo">
+            <div className="hero-photo__frame">
+              <img
+                src="/images/Profile.png"
+                alt="Mohammed Denideni — Full-Stack Developer"
+                className="hero-photo__img"
+              />
+            </div>
+            <div className="hero-photo__ring" aria-hidden="true" />
           </div>
         </div>
       </div>
-      <div className="social">
-        <a
-          href="https://www.facebook.com/profile.php?id=100080031691371"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="facebook"
-        >
-          <Facebook />
-        </a>
-        <a
-          href="https://x.com/denimohammedela"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="twitter"
-        >
-          <Twitter />
-        </a>
-        <a
-          href="https://www.linkedin.com/in/mohammed-denideni-48a9522b6/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="linkedin"
-        >
-          <LinkedIn />
-        </a>
-        <a
-          href="https://github.com/nini-btw"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="github"
-        >
-          <GitHub />
-        </a>
+
+      <div className="hero-scroll-hint" aria-hidden="true">
+        <span />
       </div>
-    </>
+    </section>
   );
 }
-
-export default Home;

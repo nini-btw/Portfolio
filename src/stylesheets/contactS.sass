@@ -1,66 +1,184 @@
-.content
-    width: 100vw
-    min-height: 70vh 
-    background-color: #fff
-    border-radius: 1rem
-    padding: 1rem
-    overflow: hidden
-    header
-        @media (min-width: 768px)
-            margin-top: -2rem
+.contact-section
+  background: #f3f7fb
+  padding: 8rem 0 10rem
+  min-height: 100vh
+  display: flex
+  flex-direction: column
+  justify-content: center
+  position: relative
 
-.info, .form
-    width: 100%
-    flex-basis: 1
-    position: relative
-.info
-    background-color: #1976D2
-    border-radius: 1rem
-    height: 48rem
-    max-width: fit-content
-    min-width: fit-content
-    color: #fff
-    overflow: hidden
-    z-index: 3
-    @media (max-width: 768px)
-        width: 90vw !important
-    p
-        color: #ccc
-    li
-        font-size: 2rem
-    h4
-        font-size: 3rem
-    .list 
-        margin-bottom: 10rem
-        text-align: left
-        >li
-            padding: 1rem
-            margin: 1rem
-            display: flex
-            justify-content: left
-            align-items: center
-    svg
-        scale: 2
-        margin-right: 2rem
-    
-.form
-    padding: 3rem 3rem 0 3rem
-    .row
-        width: 100%
-        margin-bottom: 2rem
-        font-size: 2rem
-        label
-            font-size: 2rem
-        input,textarea
-            font-size: 2rem
-            line-height: 2rem
-            padding-top: 1rem
-.round
+  @media (max-width: 768px)
+    padding: 5rem 0 7rem
+
+.contact-card
+  display: grid
+  grid-template-columns: 34rem 1fr
+  background: #fff
+  border-radius: 2rem
+  overflow: hidden
+  box-shadow: 0 24px 80px rgba(5, 32, 73, 0.12)
+  max-width: 96rem
+  margin: 0 auto
+
+  @media (max-width: 900px)
+    grid-template-columns: 1fr
+    max-width: 60rem
+
+.contact-info
+  background: #0062b9
+  color: #fff
+  padding: 4.5rem 3.5rem
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  gap: 3.2rem
+  position: relative
+
+  &::before
+    content: ''
     position: absolute
-    width: 27rem
-    height: 27rem
-    background: radial-gradient(circle, #1976D2, #5BA3EC)
-    bottom: -10rem
-    right: -10rem
+    bottom: -6rem
+    right: -6rem
+    width: 20rem
+    height: 20rem
     border-radius: 50%
-    z-index: -1
+    background: rgba(255, 255, 255, 0.03)
+    pointer-events: none
+
+  &__heading
+    font-size: 2.8rem
+    font-weight: 700
+    margin: 0 0 1.2rem
+
+  &__lead
+    font-size: 1.5rem
+    color: rgba(255, 255, 255, 0.75)
+    line-height: 1.7
+    margin: 0
+
+  &__list
+    display: flex
+    flex-direction: column
+    gap: 1.8rem
+
+  &__item
+    display: flex
+    align-items: center
+    gap: 1.4rem
+
+  &__icon
+    width: 4.2rem
+    height: 4.2rem
+    border-radius: 50%
+    background: rgba(255, 255, 255, 0.08)
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-shrink: 0
+    color: #fff
+    border: 1px solid rgba(255, 255, 255, 0.12)
+
+  &__label
+    display: block
+    font-size: 1.2rem
+    color: rgba(255, 255, 255, 0.55)
+    margin-bottom: 0.2rem
+    text-transform: uppercase
+    letter-spacing: 0.06em
+
+  &__value
+    display: block
+    font-size: 1.5rem
+    color: #fff
+    font-weight: 500
+
+  &__socials
+    display: flex
+    gap: 1.2rem
+
+    a
+      width: 3.8rem
+      height: 3.8rem
+      border-radius: 50%
+      background: rgba(255, 255, 255, 0.08)
+      border: 1px solid rgba(255, 255, 255, 0.12)
+      display: flex
+      align-items: center
+      justify-content: center
+      color: #fff
+      transition: all 0.2s ease
+
+      &:hover
+        background: rgba(255, 255, 255, 0.2)
+        transform: translateY(-2px)
+
+.contact-form-panel
+  padding: 4.5rem
+  display: flex
+  flex-direction: column
+  justify-content: center
+
+  @media (max-width: 576px)
+    padding: 3rem 2.4rem
+
+.contact-form__row
+  display: grid
+  grid-template-columns: 1fr 1fr
+  gap: 1.6rem
+  margin-bottom: 1.6rem
+
+  @media (max-width: 576px)
+    grid-template-columns: 1fr
+
+.contact-form__error
+  color: #c62828
+  font-size: 1.4rem
+  margin: -0.4rem 0 1.2rem
+  padding: 0.8rem 1.2rem
+  background: #ffebee
+  border-radius: 0.6rem
+  border-left: 3px solid #c62828
+
+.contact-success
+  text-align: center
+  padding: 2rem 1rem
+
+  &__icon
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    width: 5.6rem
+    height: 5.6rem
+    border-radius: 50%
+    background: linear-gradient(135deg, #eaf3de 0%, #d4e8c0 100%)
+    color: #2e5c0a
+    font-size: 2.6rem
+    margin-bottom: 2rem
+    box-shadow: 0 4px 12px rgba(46, 92, 10, 0.12)
+
+  h4
+    font-size: 2.2rem
+    font-weight: 700
+    color: #222
+    margin-bottom: 0.8rem
+
+  p
+    font-size: 1.6rem
+    color: #666
+    margin-bottom: 2.4rem
+
+  &__reset
+    font-size: 1.5rem
+    color: #0062b9
+    background: transparent
+    border: 2px solid #0062b9
+    border-radius: 0.8rem
+    padding: 1rem 2rem
+    cursor: pointer
+    font-weight: 600
+    font-family: inherit
+    transition: all 0.2s ease
+
+    &:hover
+      background: #0062b9
+      color: #fff

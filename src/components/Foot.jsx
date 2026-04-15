@@ -1,5 +1,6 @@
 import "../stylesheets/footS.sass";
 import { Facebook, Twitter, LinkedIn, GitHub } from "@mui/icons-material";
+import { SOCIAL_LINKS } from "../constants/social";
 
 function Foot() {
   return (
@@ -27,7 +28,7 @@ function Foot() {
           <Twitter />
         </a>
         <a
-          href="https://www.linkedin.com/in/mohammed-denideni-48a9522b6/"
+          href={SOCIAL_LINKS.linkedin}
           target="_blank"
           rel="noopener noreferrer"
           className="linkedin"
@@ -35,7 +36,7 @@ function Foot() {
           <LinkedIn />
         </a>
         <a
-          href="https://github.com/nini-btw"
+          href={SOCIAL_LINKS.github}
           target="_blank"
           rel="noopener noreferrer"
           className="github"
