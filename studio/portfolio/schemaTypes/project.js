@@ -1,0 +1,101 @@
+export default {
+  name: 'project',
+  title: 'Project',
+  type: 'document',
+  fields: [
+    {
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: { source: 'title', maxLength: 96 },
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'featured',
+      title: 'Featured (pin to top)',
+      type: 'boolean',
+      initialValue: false,
+    },
+    {
+      name: 'category',
+      title: 'Category',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Full-Stack', value: 'full-stack' },
+          { title: 'Frontend', value: 'frontend' },
+          { title: 'Tool', value: 'tool' },
+          { title: 'Backend', value: 'backend' },
+        ],
+        layout: 'radio',
+      },
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'shortDescription',
+      title: 'Short Description (shown on card)',
+      type: 'text',
+      rows: 2,
+      validation: (Rule) => Rule.required().max(120),
+    },
+    {
+      name: 'problem',
+      title: 'Problem it solved',
+      type: 'text',
+      rows: 3,
+      description: 'What pain or need did this project address?',
+    },
+    {
+      name: 'myRole',
+      title: 'My Role',
+      type: 'string',
+      description: 'e.g. Solo developer, Team lead, Frontend only',
+    },
+    {
+      name: 'duration',
+      title: 'Duration',
+      type: 'string',
+      description: 'e.g. 3 weeks, 2 months',
+    },
+    {
+      name: 'outcome',
+      title: 'Outcome / Result',
+      type: 'text',
+      rows: 2,
+      description: 'Measurable result if any. e.g. Used by 50+ users.',
+    },
+    {
+      name: 'techStack',
+      title: 'Tech Stack',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: { layout: 'tags' },
+    },
+    {
+      name: 'screenshots',
+      title: 'Screenshots',
+      type: 'array',
+      of: [{ type: 'image', options: { hotspot: true } }],
+      description: 'First image is used as the card thumbnail.',
+    },
+    {
+      name: 'liveUrl',
+      title: 'Live Demo URL',
+      type: 'url',
+    },
+    {
+      name: 'githubUrl',
+      title: 'GitHub URL',
+      type: 'url',
+    },
+  ],
+  preview: {
+    select: { title: 'title', subtitle: 'category', media: 'screenshots.0' },
+  },
+}
