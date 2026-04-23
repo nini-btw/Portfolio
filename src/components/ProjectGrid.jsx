@@ -4,14 +4,6 @@ import { useProjects } from '../hooks/useProjects'
 import ProjectModal from './ProjectModal'
 import '../stylesheets/projectGridS.sass'
 
-const CATEGORIES = [
-  { label: 'All', value: 'all' },
-  { label: 'Full-Stack', value: 'full-stack' },
-  { label: 'Frontend', value: 'frontend' },
-  { label: 'Tool', value: 'tool' },
-  { label: 'Backend', value: 'backend' },
-]
-
 const TECH_COLORS = {
   React: 'badge-blue',
   Node: 'badge-green',
@@ -117,28 +109,10 @@ ProjectCard.propTypes = {
 
 export default function ProjectGrid() {
   const { projects, loading, error } = useProjects()
-  const [activeFilter, setActiveFilter] = useState('all')
   const [selectedProject, setSelectedProject] = useState(null)
-
-  const filtered =
-    activeFilter === 'all'
-      ? projects
-      : projects.filter((p) => p.category === activeFilter)
 
   return (
     <div className="project-grid-section">
-      <div className="filter-bar">
-        {CATEGORIES.map((cat) => (
-          <button
-            key={cat.value}
-            className={`filter-btn ${activeFilter === cat.value ? 'filter-btn--active' : ''}`}
-            onClick={() => setActiveFilter(cat.value)}
-          >
-            {cat.label}
-          </button>
-        ))}
-      </div>
-
       {error && (
         <p className="project-grid__error">
           Could not load projects. Check your Sanity configuration.
@@ -148,7 +122,7 @@ export default function ProjectGrid() {
       <div className="project-grid">
         {loading
           ? Array.from({ length: 3 }).map((_, i) => <SkeletonCard key={i} />)
-          : filtered.map((project) => (
+          : projects.map((project) => (
               <ProjectCard
                 key={project._id}
                 project={project}

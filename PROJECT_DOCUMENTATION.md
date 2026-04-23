@@ -300,6 +300,9 @@ export default defineConfig({
 #### `.gitignore`
 - Ignores `.env`, logs, `node_modules`, `dist-ssr`, editor directories, and OS files.
 
+#### `.env.example`
+- Template file listing all required environment variables. Copy to `.env` and fill in your values.
+
 #### `.vscode/settings.json`
 - Adds custom words to the VS Code spell checker: `Aboutme`, `swiper`.
 
@@ -336,24 +339,182 @@ export default defineConfig({
 ### Sanity CMS Schema
 
 **Studio schema file:** `studio/schemaTypes/project.js`
+**Schema index:** `studio/schemaTypes/index.js`
 
-The `project` document type contains the following fields:
+#### Schema Index (`studio/schemaTypes/index.js`)
 
-| Field | Type | Purpose |
-|-------|------|---------|
-| `title` | `string` (required) | Project name. |
-| `slug` | `slug` (required) | URL-friendly identifier. |
-| `featured` | `boolean` | Pins project to the top of the grid. |
-| `category` | `string` (required) | One of: `full-stack`, `frontend`, `tool`, `backend`. |
-| `shortDescription` | `text` (max 120 chars, required) | Card subtitle. |
-| `problem` | `text` | Problem the project solved (shown in modal). |
-| `myRole` | `string` | e.g. "Solo developer". |
-| `duration` | `string` | e.g. "3 weeks". |
-| `outcome` | `text` | Measurable result. |
-| `techStack` | `array` of `string` | Technology tags (layout: tags). |
-| `screenshots` | `array` of `image` | Project screenshots; first image becomes thumbnail. |
-| `liveUrl` | `url` | Live demo link. |
-| `githubUrl` | `url` | Repository link. |
+```js
+import project from './project'
+export const schemaTypes = [project]
+```
+
+The schema exports a single document type: `project`.
+
+#### Project Document Schema (`studio/schemaTypes/project.js`)
+
+```js
+export default {
+  name: 'project',
+  title: 'Project',
+  type: 'document',
+  fields: [
+    {
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: { source: 'title', maxLength: 96 },
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'featured',
+      title: 'Featured (pin to top)',
+      type: 'boolean',
+      initialValue: false,
+    },
+    {
+      name: 'category',
+      title: 'Category',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Full-Stack', value: 'full-stack' },
+          { title: 'Frontend', value: 'frontend' },
+          { title: 'Tool', value: 'tool' },
+          { title: 'Backend', value: 'backend' },
+        ],
+        layout: 'radio',
+      },
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'shortDescription',
+      title: 'Short Description (shown on card)',
+      type: 'text',
+      rows: 2,
+      validation: (Rule) => Rule.required().max(120),
+    },
+    {
+      name: 'problem',
+      title: 'Problem it solved',
+      type: 'text',
+      rows: 3,
+      description: 'What pain or need did this project address?',
+    },
+    {
+      name: 'myRole',
+      title: 'My Role',
+      type: 'string',
+      description: 'e.g. Solo developer, Team lead, Frontend only',
+    },
+    {
+      name: 'duration',
+      title: 'Duration',
+      type: 'string',
+      description: 'e.g. 3 weeks, 2 months',
+    },
+    {
+      name: 'outcome',
+      title: 'Outcome / Result',
+      type: 'text',
+      rows: 2,
+      description: 'Measurable result if any. e.g. Used by 50+ users.',
+    },
+    {
+      name: 'mainFeature',
+      title: 'Main Feature',
+      type: 'text',
+      rows: 2,
+      description: 'The standout feature or core capability of this project.',
+    },
+    {
+      name: 'features',
+      title: 'Features',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: { layout: 'tags' },
+      description: 'List of key features and capabilities.',
+    },
+    {
+      name: 'techStack',
+      title: 'Tech Stack',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: { layout: 'tags' },
+    },
+    {
+      name: 'screenshots',
+      title: 'Screenshots',
+      type: 'array',
+      of: [{ type: 'image', options: { hotspot: true } }],
+      description: 'First image is used as the card thumbnail.',
+    },
+    {
+      name: 'liveUrl',
+      title: 'Live Demo URL',
+      type: 'url',
+    },
+    {
+      name: 'githubUrl',
+      title: 'GitHub URL',
+      type: 'url',
+    },
+  ],
+  preview: {
+    select: { title: 'title', subtitle: 'category', media: 'screenshots.0' },
+  },
+}
+```
+
+#### Field Reference
+
+| Field | Type | Validation | Purpose |
+|-------|------|------------|---------|
+| `title` | `string` | Required | Project name displayed on cards and modals. |
+| `slug` | `slug` | Required, auto-generated from title | URL-friendly identifier. Max 96 chars. |
+| `featured` | `boolean` | Default `false` | Pins project to the top of the grid when sorted. |
+| `category` | `string` | Required | One of: `full-stack`, `frontend`, `tool`, `backend`. Rendered as radio buttons in Studio. |
+| `shortDescription` | `text` | Required, max 120 chars | Card subtitle shown below the project title. |
+| `problem` | `text` | Optional | Problem statement shown in the project modal. |
+| `myRole` | `string` | Optional | Role description, e.g. "Solo developer". |
+| `duration` | `string` | Optional | Time spent, e.g. "3 weeks". |
+| `outcome` | `text` | Optional | Measurable result or impact summary. |
+| `mainFeature` | `text` | Optional | The standout feature or core capability of the project. |
+| `features` | `array` of `string` | Optional | List of key features and capabilities. Uses `tags` layout in Studio. |
+| `techStack` | `array` of `string` | Optional | Technology tags rendered as pills. Uses `tags` layout in Studio. |
+| `screenshots` | `array` of `image` | Optional | Project screenshots with hotspot support. First image is used as the card thumbnail. |
+| `liveUrl` | `url` | Optional | Link to live demo. |
+| `githubUrl` | `url` | Optional | Link to source repository. |
+
+#### Studio Preview Configuration
+
+The schema defines a custom preview that shows:
+- **Title:** the project `title`
+- **Subtitle:** the `category`
+- **Media:** the first screenshot (if uploaded)
+
+#### Setting Up Sanity Studio
+
+1. Navigate to the `studio/` directory:
+   ```bash
+   cd studio
+   ```
+2. Initialize a new Sanity project (if not already done):
+   ```bash
+   npm create sanity@latest
+   ```
+3. Point the Studio to the schema files in `studio/schemaTypes/`.
+4. Start the Studio:
+   ```bash
+   npm run dev
+   ```
+5. Add projects via the Studio UI.
+6. Copy the Sanity project ID into your root `.env` file as `VITE_SANITY_PROJECT_ID`.
 
 ### Fallback Data
 When Sanity is not configured, the app renders three fallback projects from `src/data/fallbackProjects.js`:
@@ -489,7 +650,6 @@ App
 | Off-White | `#f8f8f8`, `#fafafa` | Section backgrounds (About Me, Project). |
 | Hero Background | `#f8f9fc` | Hero section background. |
 | Contact Background | `#f3f7fb` | Contact section background (light gray-blue). |
-| Deep Navy (removed) | — | Previously used; now replaced with primary blue `#0062b9` for the contact left panel. |
 | Dark Grey | `#333` | Primary body text. |
 | Medium Grey | `#777` | Skill pill text, subtitles. |
 | White | `#fff` | Contact form card, footer, overlay modal. |
@@ -583,7 +743,7 @@ App
 
 | Function | File | Purpose |
 |----------|------|---------|
-| **urlFor** | `src/lib/sanityClient.js` | Wraps `imageUrlBuilder(client).image(source)` to generate responsive image URLs from Sanity image records. |
+| **urlFor** | `src/lib/sanityClient.js` | Wraps `imageUrlBuilder(client).image(source)` to generate responsive image URLs from Sanity image records. **Note:** Exported but currently unused — `useProjects.js` fetches direct URLs via GROQ instead. |
 
 ### Constants & Enums
 
@@ -699,7 +859,7 @@ npm run preview # Serves dist/ locally via Vite preview server
    - The codebase uses both single and double quotes inconsistently across files.
 
 7. **`.env` in Source Control Risk**
-   - `.env` is currently ignored by `.gitignore`, but developers should be careful not to commit it accidentally with real secrets.
+   - `.env` is ignored by `.gitignore`, and `.env.example` is provided as a safe template. Developers should copy `.env.example` to `.env` and fill in real values locally without committing them.
 
 ---
 
@@ -752,6 +912,7 @@ npm run preview # Serves dist/ locally via Vite preview server
 2. **New project (Sanity):** Add a document in Sanity Studio using the `project` schema.
 3. **New project (fallback only):** Edit `src/data/fallbackProjects.js` and add images to `public/images/`.
 4. **New style token:** Add it to `src/stylesheets/variables.sass` and import via `@use './variables'` in the relevant Sass file.
+5. **Environment setup:** Copy `.env.example` to `.env` and configure the required variables.
 
 **How to run locally:**
 ```bash

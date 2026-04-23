@@ -71,6 +71,21 @@ export default {
       description: 'Measurable result if any. e.g. Used by 50+ users.',
     },
     {
+      name: 'mainFeature',
+      title: 'Main Feature',
+      type: 'text',
+      rows: 2,
+      description: 'The standout feature or core capability of this project.',
+    },
+    {
+      name: 'features',
+      title: 'Features',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: { layout: 'tags' },
+      description: 'List of key features and capabilities.',
+    },
+    {
       name: 'techStack',
       title: 'Tech Stack',
       type: 'array',
