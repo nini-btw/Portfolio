@@ -12,6 +12,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import TwitterIcon from '@mui/icons-material/Twitter'
 import FacebookIcon from '@mui/icons-material/Facebook'
 import { SOCIAL_LINKS } from '../constants/social'
+import { PRIMARY_COLOR, PRIMARY_HOVER } from '../constants/theme'
 import '../stylesheets/contactS.sass'
 
 const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID
@@ -110,10 +111,10 @@ export default function Contact() {
               <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
                 <LinkedInIcon sx={{ fontSize: 18 }} />
               </a>
-              <a href="https://x.com/denimohammedela" target="_blank" rel="noreferrer" aria-label="Twitter">
+              <a href={SOCIAL_LINKS.twitter} target="_blank" rel="noreferrer" aria-label="Twitter">
                 <TwitterIcon sx={{ fontSize: 18 }} />
               </a>
-              <a href="https://www.facebook.com/profile.php?id=100080031691371" target="_blank" rel="noreferrer" aria-label="Facebook">
+              <a href={SOCIAL_LINKS.facebook} target="_blank" rel="noreferrer" aria-label="Facebook">
                 <FacebookIcon sx={{ fontSize: 18 }} />
               </a>
             </div>
@@ -179,7 +180,7 @@ export default function Contact() {
                   variant="contained"
                   disabled={sending}
                   fullWidth
-                  sx={{ py: 1.5, backgroundColor: '#0062b9', '&:hover': { backgroundColor: '#004f96' } }}
+                  sx={{ py: 1.5, backgroundColor: PRIMARY_COLOR, '&:hover': { backgroundColor: PRIMARY_HOVER } }}
                 >
                   {sending ? 'Sending…' : 'Send message'}
                 </Button>

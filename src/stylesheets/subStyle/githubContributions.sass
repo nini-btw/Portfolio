@@ -1,0 +1,23 @@
+@use '../variables' as v
+
+.github-contributions
+  width: 100%
+  max-width: 90rem
+  margin: 4rem auto 0
+  padding: 2.4rem
+  background-color: v.$surface-tint
+  border-radius: 10px
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1)
+
+  h4
+    font-size: 2rem
+    font-weight: 700
+    margin-bottom: 1.5rem
+    color: v.$primary-color
+    text-align: center
+
+  &__calendar
+    display: flex
+    justify-content: flex-start
+    overflow-x: auto
+    padding-bottom: 0.5rem

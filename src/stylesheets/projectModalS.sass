@@ -1,10 +1,12 @@
+@use './variables' as v
+
 .modal-backdrop
   position: fixed
   inset: 0
   background: rgba(255, 255, 255, 0.35)
   backdrop-filter: blur(12px)
   -webkit-backdrop-filter: blur(12px)
-  z-index: 1000
+  z-index: v.$z-modal
   display: flex
   align-items: center
   justify-content: center
@@ -22,7 +24,7 @@
   position: relative
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.12)
 
-  @media (max-width: 768px)
+  @media (max-width: v.$breakpoint-md)
     padding: 2.4rem
     border-radius: 1.6rem
 
@@ -55,14 +57,14 @@
   margin-bottom: 3.2rem
   gap: 2rem
 
-  @media (max-width: 576px)
+  @media (max-width: v.$breakpoint-sm)
     flex-direction: column
 
 .modal-category
   font-size: 1.3rem
   text-transform: uppercase
   letter-spacing: 0.08em
-  color: #0062b9
+  color: v.$primary-color
   font-weight: 600
   display: block
   margin-bottom: 0.6rem
@@ -72,6 +74,22 @@
   font-weight: 700
   color: #222
   margin: 0
+
+.modal-badges
+  display: flex
+  gap: 0.8rem
+  margin-top: 1.2rem
+  flex-wrap: wrap
+
+.modal-badge
+  font-size: 1.2rem
+  padding: 0.5rem 1.4rem
+  background: #f0f4ff
+  color: v.$primary-color
+  border-radius: 1rem
+  font-weight: 600
+  text-transform: uppercase
+  letter-spacing: 0.04em
 
 .modal-links
   display: flex
@@ -89,16 +107,16 @@
   white-space: nowrap
 
   &:hover
-    border-color: #0062b9
-    color: #0062b9
+    border-color: v.$primary-color
+    color: v.$primary-color
 
   &--primary
-    background: #0062b9
+    background: v.$primary-color
     color: #fff
-    border-color: #0062b9
+    border-color: v.$primary-color
 
     &:hover
-      background: #004f96
+      background: v.$primary-hover
       color: #fff
 
 .modal-screenshots
@@ -107,11 +125,13 @@
   gap: 1.6rem
   margin-bottom: 3.2rem
 
-  @media (max-width: 992px)
+  @media (max-width: v.$breakpoint-lg)
     grid-template-columns: repeat(2, 1fr)
+    gap: 1.2rem
 
-  @media (max-width: 576px)
+  @media (max-width: v.$breakpoint-sm)
     grid-template-columns: 1fr
+    gap: 0.8rem
 
 .modal-screenshot
   width: 100%
@@ -124,33 +144,26 @@
   &:hover
     transform: scale(1.02)
 
-.modal-meta
+.modal-split
   display: grid
-  grid-template-columns: repeat(3, 1fr)
-  gap: 1.6rem
-  margin-bottom: 3.2rem
-
-  @media (max-width: 576px)
-    grid-template-columns: 1fr
-
-.modal-meta__item
+  grid-template-columns: 1fr 1fr
   background: #f8f9fc
   border-radius: 1.2rem
-  padding: 1.8rem 2rem
+  margin-bottom: 2.8rem
+  overflow: hidden
 
-.modal-meta__label
-  display: block
-  font-size: 1.2rem
-  color: #888
-  margin-bottom: 0.6rem
-  text-transform: uppercase
-  letter-spacing: 0.06em
-  font-weight: 600
+  @media (max-width: v.$breakpoint-md)
+    grid-template-columns: 1fr
 
-.modal-meta__value
-  font-size: 1.6rem
-  font-weight: 600
-  color: #333
+.modal-split__col
+  padding: 2.2rem 2.4rem
+
+.modal-split--both .modal-split__col:first-child
+  border-right: 1px solid #e5e9f0
+
+  @media (max-width: v.$breakpoint-md)
+    border-right: none
+    border-bottom: 1px solid #e5e9f0
 
 .modal-section
   margin-bottom: 2.8rem
@@ -163,7 +176,7 @@
 .modal-section__title
   font-size: 1.5rem
   font-weight: 700
-  color: #0062b9
+  color: v.$primary-color
   text-transform: uppercase
   letter-spacing: 0.06em
   margin-bottom: 1rem
@@ -181,8 +194,9 @@
   grid-template-columns: repeat(2, 1fr)
   gap: 1rem 2rem
 
-  @media (max-width: 576px)
+  @media (max-width: v.$breakpoint-sm)
     grid-template-columns: 1fr
+    gap: 0.6rem 1rem
 
 .modal-feature__item
   font-size: 1.6rem
@@ -192,7 +206,7 @@
   gap: 1rem
 
 .modal-feature__bullet
-  color: #0062b9
+  color: v.$primary-color
   font-weight: 700
   font-size: 1.8rem
   flex-shrink: 0
@@ -206,6 +220,6 @@
   font-size: 1.5rem
   padding: 0.6rem 1.6rem
   background: #f0f4ff
-  color: #0062b9
+  color: v.$primary-color
   border-radius: 2rem
   font-weight: 500

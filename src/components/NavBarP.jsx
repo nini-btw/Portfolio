@@ -1,8 +1,44 @@
+import { useEffect, useState } from "react";
 import { HashLink } from "react-router-hash-link";
 import "../stylesheets/navS.sass";
 import logo from "../../public/images/logo.png";
 
+const SECTION_IDS = ["home", "aboutMe", "project", "contact"];
+
+function useActiveSection() {
+  const [activeId, setActiveId] = useState(SECTION_IDS[0]);
+
+  useEffect(() => {
+    const sections = SECTION_IDS.map((id) => document.getElementById(id)).filter(Boolean);
+    if (sections.length === 0) return undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActiveId(visible.target.id);
+      },
+      { rootMargin: "-40% 0px -55% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  return activeId;
+}
+
 function NavBarP() {
+  const activeId = useActiveSection();
+
+  const navLinks = [
+    { id: "home", to: "/#home", label: "Home" },
+    { id: "aboutMe", to: "/#aboutMe", label: "About Me" },
+    { id: "project", to: "/#project", label: "Projects" },
+    { id: "contact", to: "/#contact", label: "Contact" },
+  ];
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top overflow-hidden">
@@ -25,50 +61,18 @@ function NavBarP() {
           id="navbarText"
         >
           <ul className="navbar-nav">
-            <li className="nav-item">
-              <HashLink
-                smooth
-                to="/#home"
-                className="nav-link active"
-                aria-current="page"
-                href="#"
-              >
-                Home
-              </HashLink>
-            </li>
-            <li className="nav-item">
-              <HashLink
-                smooth
-                to="/#aboutMe"
-                className="nav-link active"
-                aria-current="page"
-                href="#"
-              >
-                About Me
-              </HashLink>
-            </li>
-            <li className="nav-item">
-              <HashLink
-                smooth
-                to="/#project"
-                className="nav-link active"
-                aria-current="page"
-                href="#"
-              >
-                Projects
-              </HashLink>
-            </li>
-            <li className="nav-item">
-              <HashLink
-                smooth
-                to="/#contact"
-                className="nav-link active"
-                aria-current="page"
-                href="#"
-              >
-                contact
-              </HashLink>
-            </li>
+            {navLinks.map(({ id, to, label }) => (
+              <li className="nav-item" key={id}>
+                <HashLink
+                  smooth
+                  to={to}
+                  className="nav-link active"
+                  aria-current={activeId === id ? "page" : undefined}
+                >
+                  {label}
+                </HashLink>
+              </li>
+            ))}
           </ul>
         </div>
       </nav>

@@ -1,15 +1,13 @@
 @use './variables.sass'
-    
-$primary-color: #1248c6 
 
-.dl    
+.dl
     @media (max-width:variables.$breakpoint-lg) 
         position: relative
     @media (max-width:variables.$breakpoint-md) 
         position: fixed
         right: 2rem
         bottom: 2rem
-        z-index: 1000
+        z-index: variables.$z-fab
         border-radius: 50%
         box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1)
         font-size: 1.5rem
@@ -21,14 +19,14 @@ $primary-color: #1248c6
 
 .navbar
     padding: 1rem 5rem!important
-    z-index: 1000
+    z-index: variables.$z-nav
     background-color: variables.$background-color 
     box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1)
 
 
 .nav-item
     padding: 2.2rem 3rem
-    display: inline-blockho
+    display: inline-block
     font-size: 1.6rem
     color: #333
     text-transform: uppercase
@@ -54,8 +52,7 @@ $primary-color: #1248c6
     position: absolute
     top: -0.5rem
     left: 9rem
-    @media (max-width:variables.$breakpoint-md) 
-        position: absolute
+    @media (max-width:variables.$breakpoint-md)
         position: absolute
         top: -1.5rem
         padding-right: 3rem
@@ -66,12 +63,11 @@ $primary-color: #1248c6
     padding: 0
     &:hover
         color: variables.$primary-color !important
-button .navbar-toggler
+.navbar-toggler
     position: absolute
     top: 1.5rem
     right: 2rem
     @media (max-width:variables.$breakpoint-md)
         position: absolute
-        top: 1rem
-        right: 2rem
         top: 2rem
+        right: 2rem

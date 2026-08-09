@@ -3,11 +3,11 @@ import "../../stylesheets/subStyle/sectionHeader.sass";
 
 const SectionHeader = ({ title, subtitle }) => {
   return (
-    <header className="text-center">
-      <h2 className="heading heading-sec heading-sec__mb-med">
+    <header className="text-center heading-sec__mb-med">
+      <h2 className="heading heading-sec">
         <span className="heading-sec__main">{title}</span>
-        <span className="heading-sec__sub">{subtitle}</span>
       </h2>
+      <p className="heading-sec__sub">{subtitle}</p>
     </header>
   );
 };

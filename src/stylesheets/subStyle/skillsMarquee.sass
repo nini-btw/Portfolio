@@ -1,0 +1,71 @@
+@use '../variables' as v
+
+.skills-marquee-group
+  display: flex
+  flex-direction: column
+  gap: 1.6rem
+  width: 100%
+
+.skills-marquee
+  display: flex
+  align-items: center
+  gap: 1.2rem
+  width: 100%
+
+  @media (max-width: v.$breakpoint-md)
+    flex-direction: column
+    align-items: flex-start
+    gap: 0.6rem
+
+  &__label
+    flex-shrink: 0
+    width: 9rem
+    font-size: 1.2rem
+    font-weight: 700
+    text-transform: uppercase
+    letter-spacing: 0.06em
+    color: #999
+
+.marquee-viewport
+  flex: 1 1 0%
+  min-width: 0
+  overflow: hidden
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)
+
+.marquee-track
+  display: flex
+  width: max-content
+  animation: marquee 26s linear infinite
+
+  &--reverse
+    animation-name: marquee-reverse
+
+  &:hover
+    animation-play-state: paused
+
+.marquee-chip
+  padding: 0.8rem 1.6rem
+  margin-right: 1.2rem
+  font-size: 1.4rem
+  background: rgba(0, 98, 185, 0.08)
+  border-radius: 5px
+  font-weight: 600
+  color: v.$primary-color
+  white-space: nowrap
+
+@keyframes marquee
+  from
+    transform: translateX(0)
+  to
+    transform: translateX(-50%)
+
+@keyframes marquee-reverse
+  from
+    transform: translateX(-50%)
+  to
+    transform: translateX(0)
+
+@media (prefers-reduced-motion: reduce)
+  .marquee-track
+    animation: none

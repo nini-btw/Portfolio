@@ -23,7 +23,7 @@
 - The portfolio markets MERN-stack expertise (MongoDB, Express, React, Node.js).
 - Projects featured include an AHP decision-making app, a calculator, HTML/CSS templates, and a Pug.js to-do app.
 - Contact inquiries are routed through EmailJS without a custom backend.
-- The project is migrating from a hardcoded Swiper carousel to a filterable grid backed by Sanity CMS.
+- Projects are backed by Sanity CMS (with a local fallback dataset) and presented as a pinned-scroll showcase — the section locks to the screen and cycles through one project per screen as you scroll — rather than a static grid.
 
 ---
 
@@ -44,19 +44,15 @@
 | **MUI (Material-UI)** | 6.3.0 | Design system providing `TextField`, `Button`, `Box`, and icon components. |
 | **@mui/icons-material** | 6.3.0 | Iconography (Facebook, Twitter, LinkedIn, GitHub, Phone, Email, LocationOn, etc.). |
 | **@emotion/react / @emotion/styled** | 11.14.0 | Emotion CSS-in-JS engine required by MUI v6. |
-| **@fontsource/roboto** | 5.1.0 | Self-hosted Roboto font (imported but not heavily used; primary font is Source Sans Pro from Google Fonts CDN). |
+| **@fontsource/roboto** | 5.1.0 | Installed but not imported anywhere in `src/` — dead dependency. |
+| **@fontsource/source-sans-pro** | 5.x | Self-hosted `Source Sans Pro` (400/600/700 weights), imported in `main.jsx`. Added because MUI computes its own component sizing in `rem` relative to `html`'s actual font-size; without a matching self-hosted font + theme fix, MUI text rendered at the wrong scale (see `src/theme.js` below). `index.html` still also loads the same font from the Google Fonts CDN — a redundant double-load left over from before this was self-hosted (tracked in Known Issues). |
 | **emailjs-com** | 3.2.0 | Browser SDK for sending contact-form emails directly from the client. |
 | **jQuery** | 3.7.1 | Peer dependency for Bootstrap JS components (navbar collapse). |
 | **@popperjs/core** | 2.11.8 | Positioning engine required by Bootstrap dropdowns/tooltips. |
 | **@sanity/client** | 6.29.1 | Sanity.io client for fetching CMS content. |
 | **@sanity/image-url** | 1.2.0 | Utility for generating image URLs from Sanity image assets. |
-| **framer-motion** | 11.18.2 | Animation library (installed for future use; not currently imported). |
-
-### Unused Dependencies (still listed in `package.json` but not imported in source)
-- `@fortawesome/free-solid-svg-icons` ^6.6.0
-- `@fortawesome/react-fontawesome` ^0.2.2
-- `bootstrap-icons` ^1.11.3
-- `swiper` ^11.1.15
+| **framer-motion** | 11.18.2 | Animation library — drives the project showcase's per-panel reveal animations and the About Me stat counters/GitHub calendar entrance. |
+| **react-github-calendar** | 5.0.8 | Renders the GitHub contribution calendar in About Me for `GITHUB_USERNAME` (unauthenticated public data). |
 
 ### Tooling / DevOps
 
@@ -125,12 +121,15 @@
 3. On success, `emailjs.send(serviceId, templateId, formData, publicKey)` is invoked.
 4. **EmailJS** returns a Promise. On success, a success screen is shown. On failure, an inline error is shown.
 
-### Primary Data Flow (Projects Grid)
-1. **`ProjectGrid`** mounts and calls `useProjects()`.
+### Primary Data Flow (Projects Showcase — "pinned scroll" section)
+1. **`ProjectShowcase`** mounts and calls `useProjects()`.
 2. If `VITE_SANITY_PROJECT_ID` is missing, `fallbackProjects` is loaded immediately.
 3. If present, the hook dynamically imports `src/lib/sanityClient.js` and runs a GROQ query.
-4. Returned data populates the grid. On error, the grid falls back to `fallbackProjects`.
-5. Clicking a card opens `ProjectModal` with the selected project object passed as a prop.
+4. The section is NOT a normal-flow block. `ProjectShowcase` renders a `.project-pin-wrapper` div sized to `projectCount * 100vh` (inline style, since only JS knows the project count) wrapping a `<section id="project" className="project-section">` that is `position: sticky; top: 0; height: 100vh`. As the page scrolls through that tall wrapper, the section visually stays pinned to the screen.
+5. **`useScrollPin`** (`src/hooks/useScrollPin.js`) tracks `window.scrollY` against the wrapper's position to compute which panel index should be active, and — once scrolling settles — snaps the page to the nearest panel boundary via `window.scrollTo({ behavior: 'smooth' })`, so panels always land on a discrete "screen" rather than mid-transition. It also exposes `scrollToIndex(i)` for `ProjectNavDots` clicks.
+6. Every `ProjectPanel` is rendered simultaneously, stacked via `position: absolute; inset: 0` inside `.project-track`; only the panel whose `index === activeIndex` gets the `is-active` class (drives its `framer-motion` reveal animation, `pointer-events: auto`, and its watermark number's opacity — panels are stacked directly on top of each other, so an inactive panel's watermark must be opacity-gated or it visibly overlaps the active one's).
+7. On error, the showcase falls back to `fallbackProjects` and shows an inline error banner.
+8. Clicking a panel's "Case study" CTA opens `ProjectModal` (now wrapped in `framer-motion`'s `AnimatePresence` in `ProjectShowcase.jsx` for an enter/exit animation) with the selected project object passed as a prop. The modal has a focus trap and returns focus to the triggering element on close.
 
 ---
 
@@ -179,32 +178,50 @@ Portfolio/
 │   │   ├── Home.jsx
 │   │   ├── NavBarP.jsx
 │   │   ├── Project.jsx
-│   │   ├── ProjectGrid.jsx
+│   │   ├── ProjectShowcase.jsx        # pinned-scroll project section (owns id="project")
+│   │   ├── ProjectPanel.jsx           # one absolutely-stacked panel per project
 │   │   ├── ProjectModal.jsx
 │   │   └── subComponents/
-│   │       └── SectionHeader.jsx
+│   │       ├── SectionHeader.jsx
+│   │       ├── TechBadge.jsx
+│   │       ├── ProjectNavDots.jsx
+│   │       ├── SkillsMarquee.jsx
+│   │       ├── StatCounter.jsx
+│   │       ├── StatsRow.jsx
+│   │       ├── GithubContributions.jsx
+│   │       ├── AboutFacts.jsx         # Role / Education facts card
+│   │       └── CvButton.jsx           # animated "Download CV" button
 │   ├── constants/
-│   │   └── social.js
+│   │   ├── social.js                  # SOCIAL_LINKS (github/linkedin/twitter/facebook/email) + GITHUB_USERNAME
+│   │   └── theme.js                   # PRIMARY_COLOR / PRIMARY_HOVER — mirrors variables.sass for use in JS (MUI sx, etc.)
 │   ├── data/
-│   │   └── fallbackProjects.js
+│   │   ├── fallbackProjects.js        # 5 fallback projects
+│   │   ├── skills.js
+│   │   └── aboutStats.js
 │   ├── hooks/
-│   │   └── useProjects.js
+│   │   ├── useProjects.js
+│   │   └── useScrollPin.js            # drives the pinned-section scroll/snap interaction for ProjectShowcase
 │   ├── index.sass
 │   ├── lib/
 │   │   └── sanityClient.js
 │   ├── main.jsx
+│   ├── theme.js                       # MUI theme (ThemeProvider, wraps <App/> in main.jsx)
 │   └── stylesheets/
 │       ├── aboutmeS.sass
 │       ├── contactS.sass
 │       ├── footS.sass
 │       ├── homeS.sass
 │       ├── navS.sass
-│       ├── projectGridS.sass
+│       ├── projectShowcaseS.sass      # also owns .project-section/.project-pin-wrapper (no separate projectS.sass anymore)
 │       ├── projectModalS.sass
-│       ├── projectS.sass
 │       ├── variables.sass
 │       └── subStyle/
-│           └── sectionHeader.sass
+│           ├── sectionHeader.sass
+│           ├── skillsMarquee.sass
+│           ├── statsRow.sass
+│           ├── githubContributions.sass
+│           ├── aboutFacts.sass
+│           └── cvButton.sass
 ├── studio/                        # Sanity Studio schema files
 │   └── schemaTypes/
 │       ├── index.js
@@ -218,31 +235,35 @@ Portfolio/
 |------|---------|
 | `public/` | Static assets copied verbatim into the build. Contains the CV PDF, logo, profile photo (`Profile.png`), mockups, and per-project screenshots. |
 | `src/` | Application source code. |
-| `src/components/` | Top-level page section components (`Home`, `Aboutme`, `Project`, `Contact`, `Foot`), navbar (`NavBarP`), the interactive project grid (`ProjectGrid`), and its modal (`ProjectModal`). |
-| `src/components/subComponents/` | Reusable presentational subcomponents. Currently holds `SectionHeader.jsx`. |
-| `src/constants/` | Shared constant values. Holds `social.js` with social media URLs. |
-| `src/data/` | Static fallback data. Holds `fallbackProjects.js` used when Sanity is unavailable. |
-| `src/hooks/` | Custom React hooks. Holds `useProjects.js` for Sanity/fallback data fetching. |
+| `src/components/` | Top-level page section components (`Home`, `Aboutme`, `Project`, `Contact`, `Foot`), navbar (`NavBarP`), the full-viewport project showcase (`ProjectShowcase`, `ProjectPanel`), and the case-study modal (`ProjectModal`). |
+| `src/components/subComponents/` | Reusable presentational subcomponents: `SectionHeader`, `TechBadge`, `ProjectNavDots`, and the About Me pieces `SkillsMarquee`, `StatCounter`, `StatsRow`, `GithubContributions`, `AboutFacts`, `CvButton`. |
+| `src/constants/` | Shared constant values. `social.js` holds `SOCIAL_LINKS` (github/linkedin/twitter/facebook/email) and `GITHUB_USERNAME`; `theme.js` holds `PRIMARY_COLOR`/`PRIMARY_HOVER` for use in JS contexts (MUI `sx` props) that can't reach `variables.sass`. |
+| `src/data/` | Static fallback/local data. Holds `fallbackProjects.js` (5 projects, used when Sanity is unavailable), `skills.js` (About Me skill list, includes Jest/Vitest/Playwright/Sentry etc.), and `aboutStats.js` (derived stat-counter values). |
+| `src/hooks/` | Custom React hooks. Holds `useProjects.js` for Sanity/fallback data fetching and `useScrollPin.js` for the Project section's pinned-scroll/snap interaction. |
 | `src/lib/` | Third-party client initialization. Holds `sanityClient.js`. |
-| `src/stylesheets/` | Sass stylesheets (indented syntax), one per major component, plus `variables.sass` for shared tokens. |
-| `src/stylesheets/subStyle/` | Styles for subcomponents (`sectionHeader.sass`). |
+| `src/theme.js` | MUI theme (`createTheme`) applied via `ThemeProvider` in `main.jsx`. Critically sets `typography.htmlFontSize: 10` — see "Non-Obvious Structural Choices" below. |
+| `src/stylesheets/` | Sass stylesheets (indented syntax), one per major component, plus `variables.sass` for shared tokens (colors, a `$space-1..$space-6` spacing scale, `$z-*` z-index scale, breakpoints). |
+| `src/stylesheets/subStyle/` | Styles for subcomponents (`sectionHeader.sass`, `skillsMarquee.sass`, `statsRow.sass`, `githubContributions.sass`, `aboutFacts.sass`, `cvButton.sass`). |
 | `studio/` | Sanity Studio schema definitions. The developer must run `npm create sanity@latest` inside this folder and point it to these schema files. |
 | `dist/` | Generated build output from `vite build`. Not version-controlled. |
 | `.vscode/` | Workspace-specific VS Code settings (spell-check word lists). |
 
 ### Naming Conventions
-- **Components:** PascalCase (`Aboutme.jsx`, `NavBarP.jsx`, `SectionHeader.jsx`, `ProjectGrid.jsx`).
-- **Stylesheets:** camelCase component name + suffix `S.sass` (`aboutmeS.sass`, `contactS.sass`, `projectGridS.sass`).
+- **Components:** PascalCase (`Aboutme.jsx`, `NavBarP.jsx`, `SectionHeader.jsx`, `ProjectShowcase.jsx`).
+- **Stylesheets:** camelCase component name + suffix `S.sass` (`aboutmeS.sass`, `contactS.sass`, `projectShowcaseS.sass`).
 - **Subcomponent styles:** Live in `subStyle/` and match the component name (`sectionHeader.sass`).
 - **Hooks:** camelCase prefixed with `use` (`useProjects.js`).
 - **Assets:** Lowercase with hyphens for multi-word filenames (`20230615_182139-removebg-preview.png`).
 - **Public screenshot folders:** Named after the project slug (`hap`, `calculator`, `template1`, `template2`).
 
 ### Non-Obvious Structural Choices
-1. **Hash-based SPA navigation:** The app uses `react-router-hash-link` to scroll to section anchors (`#home`, `#aboutMe`, `#project`, `#contact`) even though it is technically a single-page app with only one route (`/`).
+1. **Hash-based SPA navigation:** The app uses `react-router-hash-link` to scroll to section anchors (`#home`, `#aboutMe`, `#project`, `#contact`) even though it is technically a single-page app with only one route (`/`). `NavBarP.jsx` also runs its own `IntersectionObserver` over the four section elements so `aria-current="page"` reflects whichever section is actually in view, rather than being hardcoded.
 2. **No `pages/` or `views/` folder:** All section-level components live flat inside `src/components/`.
 3. **CMS with local fallback:** The project is architected to work 100% without Sanity by shipping a fallback dataset. This ensures the portfolio is never broken during CMS setup.
 4. **Dynamic import of Sanity client:** `useProjects.js` uses `import('../lib/sanityClient')` so the Sanity bundle chunk is only loaded when a project ID is configured.
+5. **`html { font-size: 62.5% }` + MUI `htmlFontSize` theme option:** `index.sass` uses the common "62.5% trick" (`1rem = 10px` at baseline, rescaled further at breakpoints) so the rest of the site's hand-written Sass can use large, readable rem multipliers. MUI computes its own component sizing in `rem` assuming a 16px root by default — without `src/theme.js`'s `typography.htmlFontSize: 10`, every MUI component (`TextField`, `Button`, etc., most visible in `Contact.jsx`) rendered at ~62.5% of its intended size. This is the standard MUI-documented fix for that exact combination and doubles as a reminder for anyone adding more MUI components: they need the `ThemeProvider` from `main.jsx` to size correctly, not manual `sx` font-size overrides.
+6. **Section ids must not be duplicated between a wrapper `<div>` in `App.jsx` and the component's own root element.** `Home` and `Contact` each render their own `<section id="...">`; `App.jsx` used to also wrap them in `<div id="home">`/`<div id="contact">`, producing duplicate DOM ids that collided with a legacy global CSS rule (`#home, #aboutMe, #contact` in `index.sass`) and stacked two `min-height: 100vh` boxes on top of each other — the actual cause of a previous "Contact section renders ~2x too tall" bug. `App.jsx` no longer double-wraps `Home`/`Contact`; `Aboutme`'s root has no id of its own, so its `<div id="aboutMe">` wrapper in `App.jsx` is intentional and still needed.
+7. **Project section is a pinned-scroll block, not normal document flow.** See "Primary Data Flow (Projects Showcase)" above — `ProjectShowcase` owns a `position: sticky` section inside a tall wrapper sized by JS (`panelCount * 100vh`), not a fixed-height block that scrolls normally into/out of view like every other section.
 
 ---
 
@@ -566,22 +587,26 @@ When Sanity is not configured, the app renders three fallback projects from `src
 ### Component Hierarchy
 
 ```
-App
-├── NavBarP
+App (wrapped in MUI ThemeProvider, src/theme.js — see main.jsx)
+├── NavBarP (tracks active section via IntersectionObserver)
 ├── main
-│   ├── #home
-│   │   └── Home
+│   ├── Home (renders its own <section id="home">)
 │   ├── #aboutMe
 │   │   └── Aboutme
-│   │       └── SectionHeader
-│   ├── #project
-│   │   └── Project
 │   │       ├── SectionHeader
-│   │       └── ProjectGrid
-│   │           └── ProjectModal (conditional)
-│   └── #contact
-│       └── Contact
-│           └── SectionHeader
+│   │       ├── AboutFacts (Role, Education)
+│   │       ├── CvButton
+│   │       ├── SkillsMarquee
+│   │       ├── StatsRow (StatCounter × 2 — Projects Shipped, Technologies)
+│   │       └── GithubContributions
+│   ├── Project (thin pass-through) → ProjectShowcase
+│   │   └── ProjectShowcase (owns <section id="project">, pinned via position:sticky)
+│   │       ├── SectionHeader
+│   │       ├── ProjectPanel × N (absolutely stacked, one active at a time)
+│   │       ├── ProjectNavDots
+│   │       └── ProjectModal (conditional, AnimatePresence-wrapped)
+│   └── Contact (renders its own <section id="contact">)
+│       └── SectionHeader
 └── Foot
 ```
 
@@ -597,8 +622,9 @@ App
 ### State Management
 - **No global state library.** All state is local React state.
 - `Contact.jsx` holds form state (`formData`, `error`, `success`, `sending`).
-- `ProjectGrid.jsx` holds UI state (`activeFilter`, `selectedProject`).
-- `ProjectModal.jsx` is fully controlled by props (`project`, `onClose`).
+- `ProjectShowcase.jsx` holds `selectedProject` state and a `wrapperRef`; the currently active panel index and the `scrollToIndex` function come from `useScrollPin` (scroll-position-driven, not `IntersectionObserver`-driven anymore — see `src/hooks/useScrollPin.js`).
+- `NavBarP.jsx` holds its own `activeId` state, driven by an internal `IntersectionObserver` over the four top-level sections.
+- `ProjectModal.jsx` is fully controlled by props (`project`, `onClose`); internally manages a focus trap and restores focus to the previously-focused element on unmount.
 
 ### Data Fetching Strategy
 - **Custom hook:** `useProjects.js` fetches from Sanity on mount using a GROQ query.
@@ -612,8 +638,8 @@ App
 - On success, a dedicated success screen is shown. On failure, a styled inline alert appears.
 
 ### Error Handling & Loading States
-- `ProjectGrid.jsx` shows 3 skeleton cards while `loading` is true.
-- If Sanity fails, an error message is shown above the grid, and fallback data is still rendered.
+- `ProjectShowcase.jsx` shows 3 skeleton panels (`ProjectPanelSkeleton`) while `loading` is true (the pin wrapper's height is sized to 3 panels during this window, then re-sized to the real project count once data resolves).
+- If Sanity fails, an error message is shown above the track, and fallback data is still rendered.
 - `Contact.jsx` displays a red bordered alert box if validation fails or EmailJS errors out.
 - The submit button shows a disabled "Sending…" state during submission.
 
@@ -622,13 +648,21 @@ App
 | Component | File | Purpose |
 |-----------|------|---------|
 | **SectionHeader** | `src/components/subComponents/SectionHeader.jsx` | Renders a styled two-line heading (title + subtitle) with an underline accent. Accepts `title` (required string) and `subtitle` (required string) props. Validated with PropTypes. |
+| **TechBadge** | `src/components/subComponents/TechBadge.jsx` | Small colored pill for a tech-stack item; color keyed off a `TECH_COLORS` map. |
+| **ProjectNavDots** | `src/components/subComponents/ProjectNavDots.jsx` | Fixed vertical dot rail for the project showcase; highlights the active panel and jumps to a panel on click. |
+| **SkillsMarquee** | `src/components/subComponents/SkillsMarquee.jsx` | Pure-CSS `@keyframes` horizontal marquee of skill chips (from `src/data/skills.js`), pausing on hover, respecting `prefers-reduced-motion`. |
+| **StatCounter** / **StatsRow** | `src/components/subComponents/StatCounter.jsx`, `StatsRow.jsx` | Count-up stat tile (years coding, projects shipped, technologies used) animated with `framer-motion`'s `useInView`/`animate` once scrolled into view; values sourced from `src/data/aboutStats.js`. |
+| **GithubContributions** | `src/components/subComponents/GithubContributions.jsx` | Wraps `react-github-calendar`'s `GitHubCalendar` for `GITHUB_USERNAME`, themed to `$primary-color`, revealed with a `framer-motion` `whileInView` fade. |
+| **AboutFacts** | `src/components/subComponents/AboutFacts.jsx` | Small facts card: Role ("Full Stack Developer") and Education. Animated in with `framer-motion` `whileInView`. |
+| **CvButton** | `src/components/subComponents/CvButton.jsx` | Animated "Download CV" button (spring hover, shine sweep), links to `/cv.pdf`. |
 
 ### Key Feature Components
 
 | Component | File | Purpose |
 |-----------|------|---------|
-| **ProjectGrid** | `src/components/ProjectGrid.jsx` | Renders a filterable responsive grid of project cards. Manages `activeFilter` and `selectedProject` state. Includes skeleton loading UI. |
-| **ProjectModal** | `src/components/ProjectModal.jsx` | Full-screen modal dialog displaying project details: screenshots, meta (role, duration, outcome), problem statement, and tech stack. Closes on backdrop click or Escape key. |
+| **ProjectShowcase** | `src/components/ProjectShowcase.jsx` | Fetches projects via `useProjects()`. Owns the pinned-scroll `<section id="project">` (see "Primary Data Flow" above): a `.project-pin-wrapper` sized to `panelCount * 100vh`, a `position: sticky` inner section, and every `ProjectPanel` stacked absolutely inside `.project-track`. Manages `selectedProject` state, gets the active panel index + `scrollToIndex` from `useScrollPin`. Renders `ProjectNavDots` and, inside an `AnimatePresence`, `ProjectModal`. |
+| **ProjectPanel** | `src/components/ProjectPanel.jsx` | One panel per project, `position: absolute; inset: 0` (all panels stacked, only the `isActive` one interactive/visible): title, category, description, tech badges, live/GitHub links, a "Case study" CTA, and a large left-aligned watermark number (`index + 1`, opacity-gated by `isActive` so inactive panels' numbers don't show through). Content staggers in via `framer-motion` variants keyed off the `isActive` prop; both the stagger and the watermark respect `prefers-reduced-motion` via `useReducedMotion`. Exports a `ProjectPanelSkeleton` for the loading state. |
+| **ProjectModal** | `src/components/ProjectModal.jsx` | Full-screen modal dialog displaying project details: screenshots, meta (role, duration, outcome), problem statement, and tech stack. Closes on backdrop click or Escape key, traps focus within itself while open, and restores focus to the previously-focused element on close. Enter/exit is animated via `framer-motion` (`AnimatePresence` lives in the parent, `ProjectShowcase.jsx`). |
 
 ---
 
@@ -641,78 +675,69 @@ App
   - **Custom Sass** for section-specific theming, typography overrides, and responsive adjustments.
 
 ### Color Palette
+`variables.sass` is the source of truth for tokenized colors; most other values below are still hardcoded per-file (a known gap, see Known Issues).
 
-| Color | Hex / RGBA | Usage |
-|-------|------------|-------|
-| Primary Blue | `#0062b9` | Section headers underline, skill category titles, CV button, contact info panel, hero accents. |
-| MUI Hover Blue | `#004f96` | Primary button hover state. |
-| Light Blue | `#5BA3EC` | Accent in hero gradient blob (legacy, minimal). |
-| Off-White | `#f8f8f8`, `#fafafa` | Section backgrounds (About Me, Project). |
-| Hero Background | `#f8f9fc` | Hero section background. |
-| Contact Background | `#f3f7fb` | Contact section background (light gray-blue). |
-| Dark Grey | `#333` | Primary body text. |
-| Medium Grey | `#777` | Skill pill text, subtitles. |
-| White | `#fff` | Contact form card, footer, overlay modal. |
-| Black | `#000` | GitHub button in overlay. |
+| Color | Token / Hex | Usage |
+|-------|------|-------|
+| Primary Blue | `$primary-color` (`#0062b9`) | Section headers underline, skill category titles, CV button, contact info panel, hero accents, active nav-dot. |
+| Primary Hover | `$primary-hover` (`#004f96`) | Primary button/link hover state. |
+| Surface Tint | `$surface-tint` (`#f8f9fb`) | Shared section background — replaces what used to be five near-duplicate off-whites (`#f8f8f8`/`#fafafa`/`#f8f9fc`/`#f3f7fb`) across Home/About/Project/Contact/GitHub calendar. |
+| Success | `$success-color` / `$success-bg-start` / `$success-bg-end` | Contact form success state, project "Featured"/badge-green accents. |
+| Error | `$error-color` / `$error-bg` | Contact form validation error, project showcase error banner. |
+| Spacing scale | `$space-1` (`0.4rem`) … `$space-6` (`4.8rem`) | Available for new spacing decisions; not yet retrofitted everywhere (most existing rules still use ad hoc rem values). |
+| Z-index scale | `$z-nav` (500) / `$z-fab` (800) / `$z-modal` (1000) | Navbar, mobile CV download FAB, modal backdrop — previously all hardcoded to the same literal `1000`. |
+| White | `#fff` | Contact form card, footer, modal panel. |
 
 ### Typography
-- **Primary Font:** `Source Sans Pro` (loaded from Google Fonts CDN).
-- **Weights used:** 400, 600, 700, 900.
-- **Base HTML font size:** `62.5%` (enables rem math where `1rem = 10px`).
-- **Scale:**
-  - Hero heading: `5rem` (responsive down to `3.2rem`)
-  - Section headings: `4rem` (`heading-sec__main`)
-  - Subheadings / h3: `2.8rem`
-  - h4 (skill categories): `2rem`
-  - Body text: `1.5rem` – `2.2rem`
-  - Skill pills / labels: `1.2rem`
+- **Primary Font:** `Source Sans Pro`, self-hosted via `@fontsource/source-sans-pro` (400/600/700), imported in `main.jsx`. (`index.html` also still loads it from Google Fonts CDN — redundant, see Known Issues.)
+- **Base HTML font size:** `62.5%` (`1rem = 10px` at baseline), rescaled further at breakpoints (`59%` ≤992px, `56%` ≤900px, `65%` ≥1800px).
+- **MUI components use the same rem scale correctly** thanks to `src/theme.js`'s `typography.htmlFontSize: 10` passed to `ThemeProvider` — without it, `TextField`/`Button` text renders far too small (see "Non-Obvious Structural Choices").
+- **Scale:** Hero heading `5rem` (→`3.2rem`), section headings `4rem`, h3 `2.8rem`, body text `1.5rem`–`2.2rem`, pills/labels `1.2rem`.
 
 ### Spacing & Layout System
-- **CSS Grid / Flexbox hybrid:** Bootstrap's 12-column grid (`Row`, `Col`) is used inside sections; custom CSS Grid powers the project card layout and the contact card split.
-- **Contact card:** Two-column grid (`34rem` info panel + `1fr` form) with a max-width of `96rem`.
-- **Project grid:** Responsive auto-fill grid with `minmax(30rem, 1fr)`.
+- **CSS Grid / Flexbox hybrid:** Bootstrap's 12-column grid (`Row`, `Col`) is used only in `Aboutme.jsx`; everything else (Home hero, Project panels, Contact card) is hand-rolled Flexbox/Grid.
+- **Contact card:** Two-column grid (`34rem` info panel + `1fr` form) with a max-width of `96rem`, collapsing to one column at `$breakpoint-lg` (992px).
+- **Project panels:** `1fr 1.35fr` grid (text column narrower than the media column, widened from an even `1fr 1fr` split so project images render larger) on desktop; single column with a large gap on mobile.
 
 ### Responsive Design Approach
-- **Breakpoints** (defined in `variables.sass`):
-  - Small: `576px`
-  - Medium: `768px`
-  - Large: `992px`
+- **Breakpoints** (`variables.sass`): Small `576px`, Medium `768px`, Large `992px`. Most stylesheets now reference these via `@use variables` rather than hardcoding raw numbers (a prior inconsistency).
 - Notable responsive behaviors:
   - Home section stacks vertically below `768px`.
-  - Contact card becomes single-column below `900px`.
-  - Project grid becomes single-column below `768px`.
-  - Navbar collapses into a hamburger menu (Bootstrap native).
+  - Contact card becomes single-column at `992px`.
+  - Project panel media uses `object-fit: contain` at all sizes (shows the full uploaded image, never crops it) and gets a taller container + larger gap from the text column below `768px`, with its own background/shadow removed there so the project-number watermark can show through the image's transparent letterbox margins.
+  - Navbar collapses into a hamburger menu (Bootstrap native); the logo is manually repositioned/scaled via `transform: scale(.8)` below `768px`.
 
 ### Animations & Transitions
-- **Hero photo ring:** `spin` keyframes rotate a dashed border ring continuously (`20s` linear).
-- **Scroll hint:** `scrollPulse` animates opacity and scale of a bottom gradient line.
-- **Project cards:** `translateY(-4px)` + box-shadow on hover.
-- **Project card image:** `scale(1.04)` on hover.
+- **Hero photo ring:** `spin` keyframes rotate a dashed border ring continuously (`20s` linear); disabled under `prefers-reduced-motion: reduce`.
+- **Scroll hint:** `scrollPulse` animates opacity/scale of a bottom gradient line; disabled under reduced motion.
+- **Project panels:** `framer-motion` stagger reveal (title/description/badges/CTA) keyed off `isActive`; uses `useReducedMotion` to swap to a plain opacity fade with no stagger/y-offset when reduced motion is preferred.
+- **About Me stat counters:** `framer-motion` count-up animation (`useInView` + `animate`), skips straight to the final value under reduced motion.
+- **Modal:** `framer-motion` `AnimatePresence` fade/scale enter-exit (previously instant show/hide).
 - **Skeleton loaders:** `shimmer` animation on a diagonal gradient.
-- **Modal:** Backdrop fade is CSS-driven; no JS animation library is currently used for it.
 
 ### Accessibility Considerations
-- **Focus management:** Global `outline: none` is overridden by a `*:focus-visible` rule (`2px solid #0062b9`) to restore keyboard visibility.
-- **Modal:** Traps scroll (`document.body.style.overflow = 'hidden'`), closes on `Escape`, and has `role="dialog"` with `aria-label` bound to the project title.
+- **Focus management:** Global `outline: none` is overridden by a `*:focus-visible` rule (`2px solid $primary-color`) to restore keyboard visibility.
+- **Modal:** Traps scroll (`document.body.style.overflow = 'hidden'`), closes on `Escape` or backdrop click, has `role="dialog"` with `aria-label` bound to the project title, traps Tab focus within itself, and restores focus to the triggering element on close.
+- **Nav:** `aria-current="page"` on `NavBarP` links now reflects real scroll position (`IntersectionObserver`-driven) instead of being hardcoded on all links.
 - **Form:** Error messages use `role="alert"`.
-- **Images:** Hero profile image has descriptive `alt` text.
+- **Images:** Hero profile image, project thumbnails, and modal screenshots all have descriptive `alt` text.
 - **Social links:** Have `aria-label` attributes.
+- **SectionHeader:** subtitle is a sibling `<p>`, not nested inside the `<h2>` (previously both title and subtitle shared the heading's accessible name).
 
 ### Key UI Patterns
-- **Fixed top navbar** with smooth-scroll hash links.
+- **Fixed top navbar** with smooth-scroll hash links and a real active-section indicator.
 - **Full-viewport hero section** with a circular profile photo (`Profile.png`), animated dashed ring, label badge, and dual CTA buttons.
-- **Two-column skills grid** (Front-End / Back-End) with pill tags.
-- **Filterable project grid** with category pills (All, Full-Stack, Frontend, Tool, Backend).
-- **Project case-study modal** with screenshot gallery, meta data grid, problem statement, and tech stack tags.
+- **About Me:** facts card + CV button (left), animated skills marquee (right), stats row, and GitHub contribution calendar below.
+- **Pinned-scroll project showcase:** the Project section locks to the screen while scrolling cycles through project panels one at a time (see "Primary Data Flow" above); only continues to About Me/Contact once you scroll past the first/last panel. Case-study modal on demand.
 - **Split contact card:** blue info panel on the left with contact details and social icons; white form panel on the right with validation and success states.
-- **Sticky footer** with social links and attribution.
+- **Footer** with social links and attribution.
 
 ---
 
 ## 11. Design Patterns & Code Conventions
 
 ### Design Patterns
-- **Presentation Component pattern:** Most components are purely presentational; state is co-located where needed (`Contact`, `ProjectGrid`).
+- **Presentation Component pattern:** Most components are purely presentational; state is co-located where needed (`Contact`, `ProjectShowcase`).
 - **Custom Hook pattern:** Data fetching is abstracted into `useProjects.js`.
 - **Fallback pattern:** The app always works, even if external services (Sanity) are unavailable.
 - **Centralized variables file:** `variables.sass` holds color tokens and breakpoints, imported via `@use` where needed.
@@ -730,7 +755,7 @@ App
 ### TypeScript
 **Not applicable.** The project is written in plain JavaScript (JSX). Prop types are used in:
 - `SectionHeader.jsx`
-- `ProjectGrid.jsx` (`TechBadge`, `ProjectCard`)
+- `TechBadge.jsx`, `ProjectPanel.jsx`, `ProjectNavDots.jsx`, `StatCounter.jsx`
 - `ProjectModal.jsx`
 
 ### Custom Hooks
@@ -738,6 +763,7 @@ App
 | Hook | File | Purpose |
 |------|------|---------|
 | **useProjects** | `src/hooks/useProjects.js` | Fetches project documents from Sanity via GROQ. Falls back to `fallbackProjects` if the project ID is missing or the request fails. Returns `{ projects, loading, error }`. |
+| **useScrollPin** | `src/hooks/useScrollPin.js` | Drives the Project section's pinned-scroll interaction: tracks scroll progress through a `panelCount * 100vh` wrapper to compute the active panel index, snaps to the nearest panel boundary once scrolling settles, and exposes `scrollToIndex(i)` for nav-dot clicks. Returns `{ activeIndex, scrollToIndex }`. |
 
 ### Utility Functions
 
@@ -749,8 +775,10 @@ App
 
 | File | Contents |
 |------|----------|
-| `src/constants/social.js` | `SOCIAL_LINKS` object containing `github`, `linkedin`, `twitter`, and `email` URLs. Imported by `Home.jsx` and `Foot.jsx`. |
-| `src/data/fallbackProjects.js` | Static array of 3 fallback project objects. |
+| `src/constants/social.js` | `SOCIAL_LINKS` object containing `github`, `linkedin`, `twitter`, `facebook`, and `email` (all real values now). Also exports `GITHUB_USERNAME`. Imported by `Home.jsx`, `Foot.jsx`, `Contact.jsx`, `GithubContributions.jsx`. |
+| `src/constants/theme.js` | `PRIMARY_COLOR`/`PRIMARY_HOVER` — mirrors `variables.sass`'s `$primary-color`/`$primary-hover` for the handful of places (MUI `sx` props, the GitHub calendar's JS theme array) that can't reach Sass variables. |
+| `src/data/fallbackProjects.js` | Static array of 5 fallback project objects. |
+| `src/data/skills.js` | Array of `{ name, category }` skill entries grouped into frontend/backend/testing/monitoring/tools/design/ai; rendered by `SkillsMarquee`. |
 
 ---
 
@@ -805,7 +833,6 @@ EmailJS credentials are read from environment variables (`VITE_EMAILJS_SERVICE_I
   - **MUI + Emotion**
   - **Bootstrap + React-Bootstrap**
   - **Sanity client**
-- Opportunity: remove unused dependencies (`@fortawesome/*`, `bootstrap-icons`, `swiper`) from `package.json` to clean up install size.
 
 ### SSR / SSG
 **Not applicable.** The app is a client-side rendered SPA. There is no Next.js, no server-side rendering, and no static generation at build time beyond Vite's default HTML injection.
@@ -840,17 +867,17 @@ npm run preview # Serves dist/ locally via Vite preview server
 
 ## 16. Known Issues & Technical Debt
 
-1. **Unused Dependencies in `package.json`**
-   - `@fortawesome/free-solid-svg-icons`, `@fortawesome/react-fontawesome`, `bootstrap-icons`, and `swiper` were uninstalled from `node_modules` during an upgrade but still remain listed in `package.json`. They should be removed to keep dependencies clean.
+1. **Duplicate font load**
+   - `Source Sans Pro` is now self-hosted via `@fontsource/source-sans-pro` (`main.jsx`), but `index.html` still also loads the same font from the Google Fonts CDN — a harmless but wasteful double-load left over from before it was self-hosted. Removing the `<link>` tags in `index.html` would clean this up.
 
-2. **Placeholder Social Links**
-   - `src/constants/social.js` contains placeholder URLs (`https://github.com/YOUR_USERNAME`, etc.) that need to be replaced with real profiles.
+2. **No Tests**
+   - Zero test coverage. Form validation, modal focus-trap, and the pinned-scroll interaction are all fragile to regressions.
 
-3. **No Tests**
-   - Zero test coverage. Form validation and overlay interactions are fragile to regressions.
-
-4. **No CMS Content Yet**
+3. **No CMS Content Yet**
    - Sanity Studio exists only as schema files. The developer must still run `npm create sanity@latest` inside `studio/`, populate projects, and add `VITE_SANITY_PROJECT_ID` to `.env`.
+
+4. **Fallback project links are placeholders**
+   - Every entry in `src/data/fallbackProjects.js` has empty `liveUrl`/`githubUrl`/`outcome`, so the Live/GitHub links and the modal's Solution text never render for the fallback dataset. Needs real values or Sanity content.
 
 5. **Sass Deprecation Warnings**
    - `npm run build` prints multiple warnings: *"The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0."* This comes from Vite's Sass integration and does not break the build.
@@ -860,6 +887,12 @@ npm run preview # Serves dist/ locally via Vite preview server
 
 7. **`.env` in Source Control Risk**
    - `.env` is ignored by `.gitignore`, and `.env.example` is provided as a safe template. Developers should copy `.env.example` to `.env` and fill in real values locally without committing them.
+
+8. **Container/gutter convention still inconsistent across sections**
+   - Home/Aboutme/Contact rely on Bootstrap's default `.container` gutter, while Project uses a custom rem-based padding — not yet unified onto one convention. Deliberately deferred (visual-risk change, needs a design decision rather than a mechanical fix).
+
+9. **`dist/` is committed to git**
+   - Unusual but intentional in this repo's history (every prior commit includes a fresh `dist/` build). Continue rebuilding before each commit that should ship a new build, or start ignoring it if that's no longer the deployment model.
 
 ---
 
@@ -883,35 +916,39 @@ npm run preview # Serves dist/ locally via Vite preview server
 
 ## 18. Quick Reference for AI Agents
 
-**What this project does:** A personal portfolio SPA for Mohammed Denideni. It displays a hero intro with a circular profile photo (`Profile.png`), an about-me section with skills, a filterable project grid with a case-study modal, a contact form wired to EmailJS, and a footer with social links.
+**What this project does:** A personal portfolio SPA for Mohammed Denideni. It displays a hero intro with a circular profile photo (`Profile.png`), an about-me section with facts/CV button, an animated skills marquee, stat counters, and a GitHub contribution calendar, a pinned-scroll project showcase (the section locks to the screen while you scroll through project panels) with a case-study modal, a contact form wired to EmailJS, and a footer with social links.
 
-**Full tech stack in one list:** React 18, Vite 5, React Router DOM + HashLink, Bootstrap 5 + React-Bootstrap, MUI v6 + Emotion, Sass (indented syntax), EmailJS, Sanity CMS (`@sanity/client`, `@sanity/image-url`), ESLint 9.
+**Full tech stack in one list:** React 18, Vite 5, React Router DOM + HashLink, Bootstrap 5 + React-Bootstrap, MUI v6 + Emotion (with a custom `ThemeProvider`, see `src/theme.js`), Sass (indented syntax), framer-motion, EmailJS, Sanity CMS (`@sanity/client`, `@sanity/image-url`), react-github-calendar, ESLint 9.
 
 **Main folders:**
-- `src/components/` — page sections (`Home`, `Aboutme`, `Project`, `Contact`, `Foot`), navbar (`NavBarP`), project grid (`ProjectGrid`), and modal (`ProjectModal`).
-- `src/stylesheets/` — one `.sass` file per component plus `variables.sass`.
-- `src/hooks/` — `useProjects.js` (Sanity + fallback data fetching).
+- `src/components/` — page sections (`Home`, `Aboutme`, `Project`, `Contact`, `Foot`), navbar (`NavBarP`), the pinned-scroll project showcase (`ProjectShowcase`, `ProjectPanel`), and modal (`ProjectModal`).
+- `src/components/subComponents/` — `SectionHeader`, `TechBadge`, `ProjectNavDots`, `SkillsMarquee`, `StatCounter`, `StatsRow`, `GithubContributions`, `AboutFacts`, `CvButton`.
+- `src/stylesheets/` — one `.sass` file per component plus `variables.sass` (colors, spacing scale, z-index scale, breakpoints).
+- `src/hooks/` — `useProjects.js` (Sanity + fallback data fetching), `useScrollPin.js` (pinned-section scroll/snap tracking for the Project section).
 - `src/lib/` — `sanityClient.js`.
-- `src/data/` — `fallbackProjects.js`.
-- `src/constants/` — `social.js`.
+- `src/data/` — `fallbackProjects.js` (5 projects), `skills.js`, `aboutStats.js`.
+- `src/constants/` — `social.js` (real social links), `theme.js` (JS-side color constants).
+- `src/theme.js` — MUI `ThemeProvider` theme (root-level, not in `constants/`).
 - `public/images/` — logo, `Profile.png`, mockups, and per-project screenshot folders.
 - `studio/schemaTypes/` — Sanity Studio schema definitions.
 
 **Most important files to know:**
-- `src/App.jsx` — root layout rendering all sections inside `<main>`.
-- `src/main.jsx` — mounts React inside `BrowserRouter`, imports Bootstrap CSS and global Sass.
-- `src/components/ProjectGrid.jsx` — the entire projects UI: filters, cards, skeletons, and modal trigger.
+- `src/App.jsx` — root layout rendering all sections inside `<main>`. `Home` and `Contact` render their own `id`; only `Aboutme` needs an `id` wrapper div here (it has none of its own).
+- `src/main.jsx` — mounts React inside `BrowserRouter` + MUI `ThemeProvider`, imports Bootstrap CSS, self-hosted fonts, and global Sass.
+- `src/components/ProjectShowcase.jsx` — the entire projects UI: pinned-scroll section, absolutely-stacked panels, nav dots, skeletons, and modal trigger.
+- `src/hooks/useScrollPin.js` — if the pinned-scroll interaction needs tuning, this is where the scroll-progress math and snap-timeout logic live.
 - `src/hooks/useProjects.js` — determines whether to fetch from Sanity or use fallback data.
 - `src/components/Contact.jsx` — contact form + EmailJS integration using environment variables.
-- `src/stylesheets/variables.sass` — shared colors and breakpoints.
+- `src/stylesheets/variables.sass` — shared colors, spacing scale, z-index scale, breakpoints.
+- `src/theme.js` — MUI theme; **any new MUI component must render under the `ThemeProvider` in `main.jsx`** or its text will size incorrectly (see below).
 - `index.html` — HTML shell with SEO meta tags and Bootstrap CDN scripts.
 - `.env` — holds Sanity and EmailJS credentials (not committed).
 
 **How to add a new feature:**
-1. **New section:** Create a component in `src/components/`, add a corresponding `.sass` file in `src/stylesheets/`, import and render it inside `src/App.jsx` inside a `<div id="newSection">`, and add a `HashLink` in `NavBarP.jsx`.
+1. **New section:** Create a component in `src/components/` that renders its own `<section id="...">` (don't also wrap it in a `<div id="...">` in `App.jsx` — that duplicate-id pattern previously caused a real layout bug), add a corresponding `.sass` file in `src/stylesheets/`, render it inside `src/App.jsx`, and add a `HashLink` (plus an entry in `NavBarP.jsx`'s `navLinks` array, so active-state tracking picks it up).
 2. **New project (Sanity):** Add a document in Sanity Studio using the `project` schema.
 3. **New project (fallback only):** Edit `src/data/fallbackProjects.js` and add images to `public/images/`.
-4. **New style token:** Add it to `src/stylesheets/variables.sass` and import via `@use './variables'` in the relevant Sass file.
+4. **New style token:** Add it to `src/stylesheets/variables.sass` (use the existing `$space-*`/`$z-*` scales where applicable) and import via `@use './variables' as v` in the relevant Sass file.
 5. **Environment setup:** Copy `.env.example` to `.env` and configure the required variables.
 
 **How to run locally:**
@@ -922,7 +959,9 @@ npm run dev
 
 **Gotchas / non-obvious things:**
 - The app uses hash anchors (`/#aboutMe`) for navigation, not real routes.
-- If `VITE_SANITY_PROJECT_ID` is missing, the project grid renders fallback data automatically.
+- If `VITE_SANITY_PROJECT_ID` is missing, the project showcase renders fallback data automatically.
 - The Sanity client is loaded via dynamic import to avoid bundling it when unused.
-- `@fortawesome/*`, `bootstrap-icons`, and `swiper` are still in `package.json` but unused in source.
 - The global Sass reset removes `outline: none`, but `*:focus-visible` restores accessibility.
+- **MUI + the 62.5% font trick:** don't remove `typography.htmlFontSize: 10` from `src/theme.js` or add MUI components outside the `ThemeProvider` — either will make MUI text render at ~62.5% of its intended size against this project's `html { font-size: 62.5% }` base.
+- **The Project section is not normal document flow** — it's a `position: sticky` block inside a `panelCount * 100vh` wrapper, driven by `useScrollPin`'s scroll-position math, not CSS `scroll-snap`. If project panels ever stop switching correctly, check `useScrollPin.js` and the `.is-active` class wiring in `ProjectPanel.jsx`/`projectShowcaseS.sass` first.
+- Don't duplicate a component's own section `id` with a wrapper `<div id="...">` in `App.jsx` — see "Non-Obvious Structural Choices" above for why that's a real bug, not just untidy markup.

@@ -10,10 +10,10 @@ export default function App() {
     <>
       <NavBarP />
       <main>
-        <div id="home"><Home /></div>
+        <Home />
         <div id="aboutMe"><Aboutme /></div>
-        <div id="project"><Project /></div>
-        <div id="contact"><Contact /></div>
+        <Project />
+        <Contact />
       </main>
       <Foot />
     </>

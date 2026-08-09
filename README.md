@@ -9,8 +9,8 @@ A personal portfolio website built as a single-page React application. It showca
 This is the personal portfolio of **Mohammed Denideni**, a Full-Stack Developer based in Oran, Algeria. The site presents a professional profile with:
 
 - Hero introduction with animated profile photo
-- About Me section with skills breakdown
-- Filterable project grid with case-study modals
+- About Me section with a facts card, animated skills marquee, animated stat counters, and a live GitHub contribution calendar
+- Pinned-scroll project showcase — the section locks to the screen and cycles through one project per scroll, with case-study modals
 - Contact form integrated with EmailJS
 - Responsive design for all screen sizes
 
@@ -20,7 +20,9 @@ This is the personal portfolio of **Mohammed Denideni**, a Full-Stack Developer 
 - **Vite 5** — Build tool and dev server
 - **React Router DOM** + **react-router-hash-link** — Hash-based smooth scrolling navigation
 - **Bootstrap 5** + **React-Bootstrap** — Grid system and navbar components
-- **MUI (Material-UI) v6** — Form inputs, buttons, and icons
+- **MUI (Material-UI) v6** — Form inputs, buttons, and icons, with a custom `ThemeProvider` (`src/theme.js`) so MUI's rem-based sizing matches this project's `62.5%` root font-size
+- **Framer Motion** — Reveal/stagger animations in the project showcase, modal enter/exit, and About Me (respects `prefers-reduced-motion`)
+- **react-github-calendar** — GitHub contributions calendar in About Me
 - **Sass** — Component-scoped styles (indented syntax)
 - **EmailJS** — Client-side contact form delivery
 - **Sanity CMS** — Headless CMS for project content (with local fallback)
@@ -81,23 +83,37 @@ src/
 ├── components/          # Page section components
 │   ├── Home.jsx
 │   ├── Aboutme.jsx
-│   ├── Project.jsx
+│   ├── Project.jsx           # thin pass-through to ProjectShowcase
+│   ├── ProjectShowcase.jsx   # Pinned-scroll project section (owns id="project")
+│   ├── ProjectPanel.jsx      # One absolutely-stacked panel per project
+│   ├── ProjectModal.jsx      # Case-study detail modal (focus-trapped, animated)
 │   ├── Contact.jsx
 │   ├── Foot.jsx
 │   ├── NavBarP.jsx
-│   ├── ProjectGrid.jsx
-│   ├── ProjectModal.jsx
 │   └── subComponents/
-│       └── SectionHeader.jsx
-├── stylesheets/         # Sass styles (one per component)
+│       ├── SectionHeader.jsx
+│       ├── TechBadge.jsx
+│       ├── ProjectNavDots.jsx
+│       ├── SkillsMarquee.jsx
+│       ├── StatCounter.jsx
+│       ├── StatsRow.jsx
+│       ├── GithubContributions.jsx
+│       ├── AboutFacts.jsx
+│       └── CvButton.jsx
+├── stylesheets/         # Sass styles (one per component), subStyle/ for subcomponents
 ├── hooks/
-│   └── useProjects.js   # Sanity/fallback data fetching
+│   ├── useProjects.js     # Sanity/fallback data fetching
+│   └── useScrollPin.js    # Pinned-scroll/snap tracking for the project showcase
 ├── lib/
 │   └── sanityClient.js  # Sanity client setup
 ├── data/
-│   └── fallbackProjects.js
+│   ├── fallbackProjects.js
+│   ├── skills.js
+│   └── aboutStats.js
 ├── constants/
-│   └── social.js
+│   ├── social.js         # SOCIAL_LINKS + GITHUB_USERNAME
+│   └── theme.js           # PRIMARY_COLOR/PRIMARY_HOVER for JS contexts
+├── theme.js              # MUI ThemeProvider theme
 ├── App.jsx
 ├── main.jsx
 └── index.sass           # Global styles
@@ -106,8 +122,9 @@ src/
 ## Key Features
 
 - **Sanity CMS Integration** — Projects are fetched dynamically from Sanity CMS. If Sanity is not configured, the site automatically falls back to a local dataset.
-- **Filterable Project Grid** — Projects can be filtered by category: All, Full-Stack, Frontend, Tool, Backend.
-- **Project Case-Study Modal** — Clicking a project card opens a detailed modal with screenshots, tech stack, role, duration, and problem statement.
+- **Pinned-Scroll Project Showcase** — The Project section locks to the screen (`position: sticky` inside a scroll-height wrapper sized to the project count) while scrolling cycles discretely through each project panel, driven by `useScrollPin.js`; only continues into the Contact section once you scroll past the last project.
+- **Project Case-Study Modal** — Clicking a project's "Case study" CTA opens a focus-trapped, animated modal with screenshots, tech stack, role, duration, and problem statement.
+- **About Me** — Facts card, CV button, animated skills marquee, animated stat counters, and a live GitHub contribution calendar (`react-github-calendar`) for the configured `GITHUB_USERNAME`.
 - **Contact Form** — Validated form that sends emails directly via EmailJS without a backend.
 - **Responsive Design** — Optimized for mobile, tablet, and desktop.
 
@@ -123,5 +140,4 @@ src/
 ## Notes
 
 - The app uses hash-based navigation (`/#aboutMe`, `/#project`, etc.) for smooth scrolling between sections.
-- Unused dependencies (`@fortawesome/*`, `bootstrap-icons`, `swiper`) are still listed in `package.json` but not imported in source. They can be safely removed if desired.
 - Sanity Studio schema files are located in the `studio/` directory.

@@ -1,0 +1,43 @@
+@use '../variables' as v
+
+.about-facts
+  display: flex
+  flex-direction: column
+  gap: 1.8rem
+  width: 100%
+  max-width: 32rem
+  padding: 2.8rem
+  background: #fff
+  border-radius: 1.6rem
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06)
+  margin-bottom: 2.8rem
+
+  &__item
+    display: flex
+    align-items: center
+    gap: 1.4rem
+
+  &__icon
+    width: 4rem
+    height: 4rem
+    border-radius: 50%
+    background: rgba(0, 98, 185, 0.08)
+    color: v.$primary-color
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-shrink: 0
+
+  &__label
+    display: block
+    font-size: 1.2rem
+    color: #999
+    text-transform: uppercase
+    letter-spacing: 0.06em
+    margin-bottom: 0.2rem
+
+  &__value
+    display: block
+    font-size: 1.5rem
+    color: #333
+    font-weight: 600

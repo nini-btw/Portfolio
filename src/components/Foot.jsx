@@ -12,7 +12,7 @@ function Foot() {
       </div>
       <div className="footer-right">
         <a
-          href="https://www.facebook.com/profile.php?id=100080031691371"
+          href={SOCIAL_LINKS.facebook}
           target="_blank"
           rel="noopener noreferrer"
           className="facebook"
@@ -20,7 +20,7 @@ function Foot() {
           <Facebook />
         </a>
         <a
-          href="https://x.com/denimohammedela"
+          href={SOCIAL_LINKS.twitter}
           target="_blank"
           rel="noopener noreferrer"
           className="twitter"

@@ -1,8 +1,10 @@
+@use './variables' as v
+
 .hero-section
   min-height: 100vh
   display: flex
   align-items: center
-  background: #f8f9fc
+  background: v.$surface-tint
   padding: 10rem 0 6rem
   position: relative
   overflow: hidden
@@ -24,10 +26,10 @@
   justify-content: space-between
   gap: 6rem
 
-  @media (max-width: 768px)
+  @media (max-width: v.$breakpoint-md)
     flex-direction: column-reverse
     text-align: center
-    gap: 4rem
+    gap: 3rem
 
 .hero-text
   max-width: 54rem
@@ -38,7 +40,7 @@
   font-weight: 600
   letter-spacing: 0.1em
   text-transform: uppercase
-  color: #0062b9
+  color: v.$primary-color
   background: rgba(0,98,185,0.08)
   padding: 0.5rem 1.2rem
   border-radius: 2rem
@@ -52,12 +54,12 @@
   margin-bottom: 2rem
 
   &--name
-    color: #0062b9
+    color: v.$primary-color
 
-  @media (max-width: 992px)
+  @media (max-width: v.$breakpoint-lg)
     font-size: 4rem
 
-  @media (max-width: 576px)
+  @media (max-width: v.$breakpoint-sm)
     font-size: 3.2rem
 
 .hero-sub
@@ -67,7 +69,7 @@
   margin-bottom: 3.2rem
   max-width: 46rem
 
-  @media (max-width: 768px)
+  @media (max-width: v.$breakpoint-md)
     margin: 0 auto 3.2rem
 
 .hero-actions
@@ -75,7 +77,7 @@
   gap: 1.6rem
   margin-bottom: 3.2rem
 
-  @media (max-width: 768px)
+  @media (max-width: v.$breakpoint-md)
     justify-content: center
 
 .hero-btn
@@ -88,23 +90,23 @@
   display: inline-block
 
   &--primary
-    background: #0062b9
+    background: v.$primary-color
     color: #fff
-    border: 2px solid #0062b9
+    border: 2px solid v.$primary-color
 
     &:hover
-      background: #004f96
-      border-color: #004f96
+      background: v.$primary-hover
+      border-color: v.$primary-hover
       color: #fff
       transform: translateY(-2px)
 
   &--secondary
     background: transparent
-    color: #0062b9
-    border: 2px solid #0062b9
+    color: v.$primary-color
+    border: 2px solid v.$primary-color
 
     &:hover
-      background: #0062b9
+      background: v.$primary-color
       color: #fff
       transform: translateY(-2px)
 
@@ -112,15 +114,15 @@
   display: flex
   gap: 1.6rem
 
-  @media (max-width: 768px)
+  @media (max-width: v.$breakpoint-md)
     justify-content: center
 
   a
-    color: #888
+    color: #6b6b6b
     transition: color 0.2s
 
     &:hover
-      color: #0062b9
+      color: v.$primary-color
 
 .hero-photo
   flex-shrink: 0
@@ -128,11 +130,11 @@
   width: 34rem
   height: 34rem
 
-  @media (max-width: 992px)
+  @media (max-width: v.$breakpoint-lg)
     width: 28rem
     height: 28rem
 
-  @media (max-width: 768px)
+  @media (max-width: v.$breakpoint-md)
     width: 22rem
     height: 22rem
 
@@ -141,7 +143,7 @@
     height: 100%
     border-radius: 50%
     overflow: hidden
-    border: 4px solid #0062b9
+    border: 4px solid v.$primary-color
     position: relative
     z-index: 2
     background: #e6f1fb
@@ -175,7 +177,7 @@
     display: block
     width: 2px
     height: 4rem
-    background: linear-gradient(to bottom, transparent, #0062b9)
+    background: linear-gradient(to bottom, transparent, v.$primary-color)
     margin: 0 auto
     animation: scrollPulse 1.8s ease-in-out infinite
 
@@ -186,3 +188,10 @@
   50%
     opacity: 1
     transform: scaleY(1)
+
+@media (prefers-reduced-motion: reduce)
+  .hero-photo__ring
+    animation: none
+  .hero-scroll-hint span
+    animation: none
+    opacity: 0.6
