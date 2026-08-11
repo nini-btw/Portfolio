@@ -23,6 +23,13 @@ export default {
       initialValue: false,
     },
     {
+      name: 'order',
+      title: 'Display Order',
+      type: 'number',
+      description: 'Controls display position (1 = first). Lower numbers show first.',
+      validation: (Rule) => Rule.required().integer().min(1),
+    },
+    {
       name: 'category',
       title: 'Category',
       type: 'string',
@@ -69,21 +76,6 @@ export default {
       type: 'text',
       rows: 2,
       description: 'Measurable result if any. e.g. Used by 50+ users.',
-    },
-    {
-      name: 'mainFeature',
-      title: 'Main Feature',
-      type: 'text',
-      rows: 2,
-      description: 'The standout feature or core capability of this project.',
-    },
-    {
-      name: 'features',
-      title: 'Features',
-      type: 'array',
-      of: [{ type: 'string' }],
-      options: { layout: 'tags' },
-      description: 'List of key features and capabilities.',
     },
     {
       name: 'techStack',

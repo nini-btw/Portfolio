@@ -3,7 +3,7 @@ import { fallbackProjects } from '../data/fallbackProjects'
 
 const PROJECT_ID = import.meta.env.VITE_SANITY_PROJECT_ID
 
-const QUERY = `*[_type == "project"] | order(featured desc, _createdAt desc) {
+const QUERY = `*[_type == "project"] | order(order asc) {
   _id,
   title,
   slug,
@@ -13,12 +13,11 @@ const QUERY = `*[_type == "project"] | order(featured desc, _createdAt desc) {
   myRole,
   duration,
   outcome,
-  mainFeature,
-  features,
   techStack,
   liveUrl,
   githubUrl,
   featured,
+  order,
   "screenshots": screenshots[].asset->url,
   "thumbnail": screenshots[0].asset->url
 }`

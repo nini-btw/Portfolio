@@ -1,6 +1,7 @@
 export const fallbackProjects = [
   {
     _id: '1',
+    order: 1,
     title: 'HAP Decision Tool',
     category: 'full-stack',
     shortDescription: 'AHP-based structured decision making application for teams.',
@@ -8,8 +9,6 @@ export const fallbackProjects = [
     myRole: 'Solo Developer — Full-Stack',
     duration: '3 weeks',
     outcome: '',
-    mainFeature: 'Multi-criteria decision analysis using the Analytic Hierarchy Process with real-time result visualization.',
-    features: ['AHP calculation engine', 'Team collaboration', 'Criteria weighting', 'Result charts', 'Export reports', 'Responsive dashboard'],
     techStack: ['React', 'Node', 'Express', 'MongoDB'],
     screenshots: [
       '/images/all-devices-white-ahp.png',
@@ -26,6 +25,7 @@ export const fallbackProjects = [
   },
   {
     _id: '2',
+    order: 2,
     title: 'Calculator',
     category: 'frontend',
     shortDescription: 'Feature-rich calculator with expression parsing and history.',
@@ -33,8 +33,6 @@ export const fallbackProjects = [
     myRole: 'Solo Developer — Full-Stack',
     duration: '1 week',
     outcome: '',
-    mainFeature: 'Advanced expression parser with full operation history and keyboard support.',
-    features: ['Expression parsing', 'Operation history', 'Keyboard support', 'Scientific mode', 'Copy result', 'Error handling'],
     techStack: ['JavaScript', 'HTML', 'CSS'],
     screenshots: [
       '/images/all-devices-white-calc.png',
@@ -51,6 +49,7 @@ export const fallbackProjects = [
   },
   {
     _id: '3',
+    order: 3,
     title: 'Pug Todo App',
     category: 'full-stack',
     shortDescription: 'Server-rendered todo app with Pug templates and Express backend.',
@@ -58,8 +57,6 @@ export const fallbackProjects = [
     myRole: 'Solo Developer — Full-Stack',
     duration: '1 week',
     outcome: '',
-    mainFeature: 'Server-rendered task management with persistent storage and clean UI.',
-    features: ['Create tasks', 'Mark complete', 'Delete tasks', 'Persistent storage', 'Server-side rendering', 'Clean Pug templates'],
     techStack: ['Node', 'Express', 'Pug'],
     screenshots: [
       '/images/all-devices-white-todo.png',
@@ -76,6 +73,7 @@ export const fallbackProjects = [
   },
   {
     _id: '4',
+    order: 4,
     title: 'Kasper Template',
     category: 'frontend',
     shortDescription: 'Responsive HTML/CSS landing page template with modern design.',
@@ -83,8 +81,6 @@ export const fallbackProjects = [
     myRole: 'Solo Developer — Full-Stack',
     duration: '1 week',
     outcome: '',
-    mainFeature: 'Pixel-perfect responsive layout built entirely with vanilla HTML and CSS.',
-    features: ['Responsive grid', 'Smooth animations', 'Clean typography', 'Cross-browser support', 'Optimized assets', 'Mobile-first design'],
     techStack: ['HTML', 'CSS'],
     screenshots: [
       '/images/all-devices-white -template-1.png',
@@ -101,6 +97,7 @@ export const fallbackProjects = [
   },
   {
     _id: '5',
+    order: 5,
     title: 'Leon Template',
     category: 'frontend',
     shortDescription: 'Minimal agency landing page with elegant typography and layout.',
@@ -108,8 +105,6 @@ export const fallbackProjects = [
     myRole: 'Solo Developer — Full-Stack',
     duration: '1 week',
     outcome: '',
-    mainFeature: 'Ultra-lightweight landing page with elegant typography and fast load times.',
-    features: ['Minimal design', 'Fast loading', 'Elegant typography', 'SEO friendly', 'Smooth scrolling', 'Contact section'],
     techStack: ['HTML', 'CSS'],
     screenshots: [
       '/images/all-devices-white-templat-2.png',

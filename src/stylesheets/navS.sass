@@ -20,8 +20,10 @@
 .navbar
     padding: 1rem 5rem!important
     z-index: variables.$z-nav
-    background-color: variables.$background-color 
+    background-color: variables.$background-color
     box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1)
+    @media (max-width:variables.$breakpoint-md)
+        padding: 2.6rem 2rem!important
 
 
 .nav-item
@@ -34,14 +36,14 @@
     font-weight: 700
     transition: color .3s
 
-.navbar 
+.navbar
     #navbarText
         margin-right: 1rem
     #navbar-logo
         @media (max-width:variables.$breakpoint-md)
             transform: scale(.8)
             position: relative
-            top: -2rem
+            top: -1.6rem
             left: -6rem
 
 
@@ -54,10 +56,10 @@
     left: 9rem
     @media (max-width:variables.$breakpoint-md)
         position: absolute
-        top: -1.5rem
+        top: -0.6rem
         padding-right: 3rem
         padding-top: 3rem
-    
+
 
 .nav-item a
     padding: 0
@@ -69,5 +71,5 @@
     right: 2rem
     @media (max-width:variables.$breakpoint-md)
         position: absolute
-        top: 2rem
+        top: 3.8rem
         right: 2rem

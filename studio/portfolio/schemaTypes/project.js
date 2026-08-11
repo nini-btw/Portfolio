@@ -23,6 +23,13 @@ export default {
       initialValue: false,
     },
     {
+      name: 'order',
+      title: 'Display Order',
+      type: 'number',
+      description: 'Controls display position (1 = first). Lower numbers show first.',
+      validation: (Rule) => Rule.required().integer().min(1),
+    },
+    {
       name: 'category',
       title: 'Category',
       type: 'string',

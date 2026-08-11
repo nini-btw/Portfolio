@@ -117,27 +117,6 @@ export default function ProjectModal({ project, onClose }) {
             </div>
           )}
 
-          {project.mainFeature && (
-            <div className="modal-section modal-section--highlight">
-              <h4 className="modal-section__title">Main Feature</h4>
-              <p className="modal-section__text">{project.mainFeature}</p>
-            </div>
-          )}
-
-          {project.features && project.features.length > 0 && (
-            <div className="modal-section">
-              <h4 className="modal-section__title">Features</h4>
-              <ul className="modal-features">
-                {project.features.map((feature) => (
-                  <li key={feature} className="modal-feature__item">
-                    <span className="modal-feature__bullet">✓</span>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
           {project.techStack && project.techStack.length > 0 && (
             <div className="modal-section">
               <h4 className="modal-section__title">Tech stack</h4>
@@ -163,8 +142,6 @@ ProjectModal.propTypes = {
     myRole: PropTypes.string,
     duration: PropTypes.string,
     outcome: PropTypes.string,
-    mainFeature: PropTypes.string,
-    features: PropTypes.arrayOf(PropTypes.string),
     problem: PropTypes.string,
     techStack: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,

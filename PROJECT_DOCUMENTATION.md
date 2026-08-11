@@ -399,6 +399,13 @@ export default {
       initialValue: false,
     },
     {
+      name: 'order',
+      title: 'Display Order',
+      type: 'number',
+      description: 'Controls display position (1 = first). Lower numbers show first.',
+      validation: (Rule) => Rule.required().integer().min(1),
+    },
+    {
       name: 'category',
       title: 'Category',
       type: 'string',
@@ -447,21 +454,6 @@ export default {
       description: 'Measurable result if any. e.g. Used by 50+ users.',
     },
     {
-      name: 'mainFeature',
-      title: 'Main Feature',
-      type: 'text',
-      rows: 2,
-      description: 'The standout feature or core capability of this project.',
-    },
-    {
-      name: 'features',
-      title: 'Features',
-      type: 'array',
-      of: [{ type: 'string' }],
-      options: { layout: 'tags' },
-      description: 'List of key features and capabilities.',
-    },
-    {
       name: 'techStack',
       title: 'Tech Stack',
       type: 'array',
@@ -499,14 +491,13 @@ export default {
 | `title` | `string` | Required | Project name displayed on cards and modals. |
 | `slug` | `slug` | Required, auto-generated from title | URL-friendly identifier. Max 96 chars. |
 | `featured` | `boolean` | Default `false` | Pins project to the top of the grid when sorted. |
+| `order` | `number` | Required, integer, min 1 | Manual display position — projects render in ascending `order`. |
 | `category` | `string` | Required | One of: `full-stack`, `frontend`, `tool`, `backend`. Rendered as radio buttons in Studio. |
 | `shortDescription` | `text` | Required, max 120 chars | Card subtitle shown below the project title. |
 | `problem` | `text` | Optional | Problem statement shown in the project modal. |
 | `myRole` | `string` | Optional | Role description, e.g. "Solo developer". |
 | `duration` | `string` | Optional | Time spent, e.g. "3 weeks". |
 | `outcome` | `text` | Optional | Measurable result or impact summary. |
-| `mainFeature` | `text` | Optional | The standout feature or core capability of the project. |
-| `features` | `array` of `string` | Optional | List of key features and capabilities. Uses `tags` layout in Studio. |
 | `techStack` | `array` of `string` | Optional | Technology tags rendered as pills. Uses `tags` layout in Studio. |
 | `screenshots` | `array` of `image` | Optional | Project screenshots with hotspot support. First image is used as the card thumbnail. |
 | `liveUrl` | `url` | Optional | Link to live demo. |
@@ -521,33 +512,40 @@ The schema defines a custom preview that shows:
 
 #### Setting Up Sanity Studio
 
-1. Navigate to the `studio/` directory:
+The Studio is already initialized at `studio/portfolio/` (project `jyl3yhl8`, dataset `production`) — the schema in `studio/portfolio/schemaTypes/project.js` is the deployed one.
+
+1. Navigate to the Studio directory:
    ```bash
-   cd studio
+   cd studio/portfolio
    ```
-2. Initialize a new Sanity project (if not already done):
+2. Install dependencies (if not already done):
    ```bash
-   npm create sanity@latest
+   npm install
    ```
-3. Point the Studio to the schema files in `studio/schemaTypes/`.
-4. Start the Studio:
+3. Edit the schema in `studio/portfolio/schemaTypes/`, then deploy it:
+   ```bash
+   npx sanity schema deploy
+   ```
+4. Start the Studio locally to add/edit content:
    ```bash
    npm run dev
    ```
-5. Add projects via the Studio UI.
-6. Copy the Sanity project ID into your root `.env` file as `VITE_SANITY_PROJECT_ID`.
+5. Add or edit projects via the Studio UI.
+6. The root `.env` already points at this project via `VITE_SANITY_PROJECT_ID=jyl3yhl8` and `VITE_SANITY_DATASET=production`.
 
 ### Fallback Data
-When Sanity is not configured, the app renders three fallback projects from `src/data/fallbackProjects.js`:
+When Sanity is not configured, the app renders five fallback projects from `src/data/fallbackProjects.js`:
 1. **HAP Decision Tool** (`full-stack`, featured)
 2. **Calculator** (`frontend`)
 3. **Pug Todo App** (`full-stack`)
+4. **Kasper Template** (`frontend`)
+5. **Leon Template** (`frontend`)
 
 ### Data Fetching Hook
 **File:** `src/hooks/useProjects.js`
 
 - Returns `{ projects, loading, error }`.
-- GROQ query fetches all `project` documents sorted by `featured desc, _createdAt desc`.
+- GROQ query fetches all `project` documents sorted by `order asc`.
 - Image references are resolved to direct CDN URLs: `"screenshots": screenshots[].asset->url` and `"thumbnail": screenshots[0].asset->url`.
 
 ---
