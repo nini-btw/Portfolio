@@ -54,7 +54,11 @@ function NavBarP() {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon"></span>
+          <span className="hamburger">
+            <span className="hamburger-bar"></span>
+            <span className="hamburger-bar"></span>
+            <span className="hamburger-bar"></span>
+          </span>
         </button>
         <div
           className="collapse navbar-collapse justify-content-end"
@@ -68,6 +72,8 @@ function NavBarP() {
                   to={to}
                   className="nav-link active"
                   aria-current={activeId === id ? "page" : undefined}
+                  data-bs-toggle="collapse"
+                  data-bs-target="#navbarText"
                 >
                   {label}
                 </HashLink>
