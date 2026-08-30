@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { HashLink } from "react-router-hash-link";
 import "../stylesheets/navS.sass";
-import logo from "../../public/images/logo.png";
+import logo from "../../public/images/logo.svg";
 
 const SECTION_IDS = ["home", "aboutMe", "project", "contact"];
 

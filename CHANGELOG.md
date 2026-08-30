@@ -5,7 +5,22 @@ All notable changes to this project are tracked here. Format loosely follows
 
 ## [Unreleased]
 
-Nothing yet.
+### Changed
+- Navbar logo (audit finding #15) rebuilt as a hand-authored SVG
+  (`public/images/logo.svg`) replacing the old raster `logo.png`, this time
+  vector-traced against the actual pixel geometry of the original mark
+  (its bounding box, stroke width, and vertex coordinates extracted with a
+  small one-off `pngjs` script, not eyeballed or reinterpreted) rather than
+  redesigned — same "D" arch over the zigzag "M", same proportions, same
+  bar widths, confirmed via a side-by-side render against the original PNG
+  before being wired in. Fixes the same underlying problem the raster
+  version had (thin strokes blurring into an ambiguous mark at the ~44-54px
+  navbar display size) without changing the mark itself. Verified at both
+  desktop and mobile navbar sizes. Old `logo.png` removed (recoverable from
+  git history); `PROJECT_DOCUMENTATION.md`'s file-tree reference updated.
+  (Note: an earlier attempt in this same window redrew the mark from a
+  generic D/M letterform interpretation instead of tracing the actual file
+  — reverted after feedback that it didn't match the original design.)
 
 ---
 

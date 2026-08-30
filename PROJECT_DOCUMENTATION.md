@@ -157,7 +157,7 @@ Portfolio/
 │   ├── images/
 │   │   ├── 20230615_182139-removebg-preview.png
 │   │   ├── all-devices-white-*.png    # project mockups
-│   │   ├── logo.png
+│   │   ├── logo.svg
 │   │   ├── Profile.png
 │   │   ├── mockup/
 │   │   └── screenshots/               # project screenshot folders
