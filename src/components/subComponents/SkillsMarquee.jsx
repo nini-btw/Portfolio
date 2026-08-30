@@ -42,7 +42,10 @@ export default function SkillsMarquee() {
               className={`marquee-track ${i % 2 === 1 ? 'marquee-track--reverse' : ''}`}
             >
               {[...group.items, ...group.items].map((skill, j) => (
-                <span className="marquee-chip" key={`${skill.name}-${j}`}>
+                <span
+                  className={`marquee-chip ${j >= group.items.length ? 'marquee-chip--dup' : ''}`}
+                  key={`${skill.name}-${j}`}
+                >
                   {skill.name}
                 </span>
               ))}

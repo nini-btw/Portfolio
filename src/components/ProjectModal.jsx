@@ -6,7 +6,7 @@ import '../stylesheets/projectModalS.sass'
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
 
-export default function ProjectModal({ project, onClose }) {
+export default function ProjectModal({ project, onClose, onImageClick }) {
   const panelRef = useRef(null)
   const previouslyFocused = useRef(null)
 
@@ -95,7 +95,15 @@ export default function ProjectModal({ project, onClose }) {
           {project.screenshots && project.screenshots.length > 0 && (
             <div className="modal-screenshots">
               {project.screenshots.map((url, i) => (
-                <img key={i} src={url} alt={`${project.title} screenshot ${i + 1}`} className="modal-screenshot" />
+                <button
+                  key={i}
+                  type="button"
+                  className="modal-screenshot-btn"
+                  onClick={() => onImageClick(i)}
+                  aria-label={`View ${project.title} screenshot ${i + 1} full screen`}
+                >
+                  <img src={url} alt={`${project.title} screenshot ${i + 1}`} className="modal-screenshot" />
+                </button>
               ))}
             </div>
           )}
@@ -146,4 +154,5 @@ ProjectModal.propTypes = {
     techStack: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   onClose: PropTypes.func.isRequired,
+  onImageClick: PropTypes.func.isRequired,
 }

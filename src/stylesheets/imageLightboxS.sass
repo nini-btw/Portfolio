@@ -1,0 +1,119 @@
+@use './variables' as v
+
+.lightbox-backdrop
+  position: fixed
+  inset: 0
+  background: #fff
+  z-index: v.$z-lightbox
+  display: flex
+  align-items: center
+  justify-content: center
+
+.lightbox-close
+  position: absolute
+  top: 2rem
+  right: 2rem
+  z-index: 10
+  background: #f5f5f5
+  border: none
+  font-size: 2rem
+  cursor: pointer
+  color: #444
+  line-height: 1
+  width: 4.4rem
+  height: 4.4rem
+  border-radius: 50%
+  display: flex
+  align-items: center
+  justify-content: center
+  transition: all 0.2s
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08)
+
+  &:hover
+    background: #eee
+    color: #111
+
+  @media (max-width: v.$breakpoint-sm)
+    top: 1.2rem
+    right: 1.2rem
+    width: 3.8rem
+    height: 3.8rem
+    font-size: 1.7rem
+
+.lightbox-swiper
+  width: 100%
+  height: 100%
+  --swiper-navigation-color: #{v.$primary-color}
+  --swiper-navigation-size: 2.6rem
+  --swiper-pagination-color: #{v.$primary-color}
+  --swiper-pagination-bottom: 2rem
+
+  .swiper-slide
+    display: flex
+    align-items: center
+    justify-content: center
+    height: 100%
+
+    img
+      max-width: 90%
+      max-height: 88vh
+      width: auto
+      height: auto
+      object-fit: contain
+      border-radius: 0.8rem
+      user-select: none
+
+    @media (max-width: v.$breakpoint-sm)
+      img
+        max-width: 94%
+        max-height: 68vh
+
+  .swiper-zoom-container
+    width: 100%
+    height: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+
+  .swiper-button-next,
+  .swiper-button-prev
+    background: #f5f5f5
+    width: 4.8rem
+    height: 4.8rem
+    border-radius: 50%
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08)
+    transition: background 0.2s
+
+    &:hover
+      background: #eee
+
+    &::after
+      font-size: 1.8rem
+      font-weight: 700
+
+    @media (max-width: v.$breakpoint-sm)
+      width: 3.8rem
+      height: 3.8rem
+      top: auto
+      bottom: 4.8rem
+      margin-top: 0
+      right: auto
+
+      &::after
+        font-size: 1.4rem
+
+  .swiper-button-prev
+    @media (max-width: v.$breakpoint-sm)
+      left: calc(50% - 4.6rem)
+
+  .swiper-button-next
+    @media (max-width: v.$breakpoint-sm)
+      left: calc(50% + 0.8rem)
+
+  .swiper-pagination-fraction
+    font-size: 1.4rem
+    font-weight: 600
+    color: #555
+
+    @media (max-width: v.$breakpoint-sm)
+      bottom: 1.4rem

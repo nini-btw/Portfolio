@@ -61,7 +61,13 @@ export function useScrollPin(wrapperRef, count) {
         snapTimeout.current = setTimeout(() => {
           const target = getTargetScrollY(index)
           if (target !== null && Math.abs(window.scrollY - target) > 2) {
-            window.scrollTo({ top: target, behavior: 'smooth' })
+            // Instant, not smooth: a smooth re-scroll kicking in after the user
+            // has already stopped scrolling leaves the page visibly animating
+            // on its own for hundreds of ms — during which a panel mid-transition
+            // can render behind the fixed navbar. Snapping instantly collapses
+            // that unsafe window to effectively nothing. `scrollToIndex` below
+            // (the deliberate dot-click navigation) stays smooth on purpose.
+            window.scrollTo({ top: target, behavior: 'instant' })
           }
         }, 120)
       }

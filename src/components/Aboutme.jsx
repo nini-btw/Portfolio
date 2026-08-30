@@ -17,7 +17,7 @@ function Aboutme() {
         />
 
         <section className="w-100">
-          <Row className="w-100 align-items-center">
+          <Row className="w-100 align-items-start">
             <Col
               md={6}
               xs={12}

@@ -9,6 +9,109 @@ Nothing yet.
 
 ---
 
+## [1.2.0] - 2026-08-30
+
+### Added
+- `ImageLightbox` (`src/components/ImageLightbox.jsx`, `imageLightboxS.sass`,
+  new `swiper` dependency) — full-screen, white-background gallery opened
+  from either the main project thumbnail (`ProjectPanel`) or any screenshot
+  inside the case-study modal (`ProjectModal`), landing on the exact image
+  clicked. Supports arrow navigation, pinch/double-tap zoom, keyboard, and a
+  fraction counter (`1/6`). On mobile the prev/next arrows sit centered
+  under the image — not pinned to the left/right screen edges — with the
+  counter positioned just below them, both in easy thumb reach.
+- `audit.md` — full UI/UX audit (layout, spacing, typography, color/contrast,
+  buttons, responsive behavior, accessibility, motion, design-system
+  consistency) covering the whole site at 320–1920px. 15 numbered findings,
+  each independently reproduced and measured against the live app (computed
+  styles, `getBoundingClientRect()`, WCAG contrast math) rather than judged
+  from source alone, plus a prioritized fix plan (Critical → Low).
+- `ui-ux-audit-screenshots/` (before) and `ui-ux-audit-screenshots/after/` —
+  real-browser Playwright evidence for all 15 findings, one screenshot per
+  finding (two each for the paired mobile-width and Contact/Footer-order
+  findings), before and after the fixes below.
+- Shared design tokens in `variables.sass`: `$radius-sm`/`$radius-md`/
+  `$radius-lg`/`$radius-pill` and `$shadow-sm`/`$shadow-md`/`$shadow-lg`.
+
+### Fixed
+All items below are from `audit.md`; each was re-verified live post-fix
+(measured geometry and/or a fresh screenshot), not just visually eyeballed.
+- **`.project-nav-dots` overlapping project description text on mobile**
+  (measured 6.1px overlap at 320/375px) — `.project-panel__info` now reserves
+  right padding for the dots rail below the `md` breakpoint.
+- **Mobile nav menu silently hiding the hero photo/eyebrow behind itself** —
+  the expanded `#navbarText` was growing `.navbar`'s own fixed box in normal
+  flow, so page content never reflowed and just sat, partially exposed,
+  underneath it. Rebuilt as a proper fixed, full-viewport overlay panel below
+  the toggler row, with the toggler and logo lifted above it via z-index so
+  the close button and brand mark stay usable while it's open.
+- **WCAG AA contrast failures**: `.about-facts__label` and
+  `.skills-marquee__label` were `#999` on white/tint (2.7–2.85:1, fails the
+  4.5:1 minimum for normal text) — both changed to `#6b6b6b` (5.33:1),
+  matching the value already used and passing elsewhere in the codebase.
+- **Touch targets under the WCAG 2.5.8 24×24px minimum**: `.hero-socials a`
+  was 22×22px (padded to 36×36, icon's own rendered size unchanged) and
+  `.project-nav-dots__dot` was 10×10px (restructured so the button's hit area
+  is 24×24px while the painted dot stays visually small via a `::before`).
+- **Hero content reading as unbalanced/sparse at desktop widths** — measured
+  ~505px of dead space between the text column and photo at 1920px
+  (`.hero-inner` used `justify-content: space-between` with no cap on the
+  container). Changed to `justify-content: center` with a `clamp()`-bounded
+  gap so the pair reads as one balanced group at any width.
+- **Fixed navbar transiently clipping the "My Projects" heading** while the
+  pinned project section engages `position: sticky` mid-scroll (measured up
+  to 28px of overlap at specific scroll offsets, not just a resting-state
+  issue). Two-part fix: `useScrollPin`'s idle auto-correction now snaps
+  `behavior: 'instant'` instead of `'smooth'` (a smooth re-scroll firing
+  after the user has already stopped scrolling was the actual mechanism
+  leaving the clipped frame on screen for hundreds of ms), plus
+  `.project-section`'s mobile `padding-top` recalculated from a direct
+  measurement (heading's on-screen top equals padding-top exactly once
+  stuck, with no other offset) to `12rem` — re-scanning the entire transition
+  range afterward confirmed zero remaining overlap at any scroll offset.
+- **Skills marquee unreadable on touch devices** — the infinite-loop
+  animation never stops without a `:hover`, which doesn't exist on touch,
+  and the edge mask permanently truncated the first/last visible chip.
+  Below the `md` breakpoint it's now a static, fully-readable wrapped chip
+  grid (animation, mask, and the loop's duplicate chip set all disabled via
+  a new `marquee-chip--dup` class); the desktop/tablet marquee is unchanged.
+- **Excessive whitespace between About and Projects** —
+  `.heading-sec__mb-med` margin-bottom cut from `9rem` to `5.5rem` (kept
+  independent of the padding-top change above: margin-bottom controls the
+  gap *after* the heading, padding-top controls clip-safety *before* it, so
+  the two fixes don't fight each other).
+- **About section's two columns starting at different vertical positions** —
+  `Aboutme.jsx`'s `Row` changed from `align-items-center` to
+  `align-items-start`.
+- **Inconsistent social-icon order** between the Contact panel (GitHub,
+  LinkedIn, Twitter, Facebook) and the footer (was Facebook, Twitter,
+  LinkedIn, GitHub — the exact reverse) — footer reordered to match.
+- **Footer text wrapping awkwardly against the icons below ~360px** — added
+  a stacked (`flex-direction: column`, centered) layout below
+  `$breakpoint-sm`.
+
+### Changed
+- `cvButton.sass` (`5px`) and `githubContributions.sass` (`10px`) raw-px
+  border-radii moved onto the new `$radius-sm`/`$radius-md` tokens.
+- `navS.sass`: two byte-for-byte identical `box-shadow: 0 10px 100px
+  rgba(0,0,0,0.1)` declarations (`.navbar`, the `.dl` mobile CV button)
+  consolidated onto `$shadow-md`.
+
+### Removed
+- Unused `$space-1`..`$space-6` spacing tokens from `variables.sass`
+  (confirmed zero usages anywhere else in the repo).
+
+### Deferred
+- **Logo mark** (audit finding #15) — flagged as subjective/branding in the
+  audit; left untouched pending the user's direction rather than assuming a
+  redesign.
+- Noticed but out of scope: `react-router-hash-link` nav clicks don't
+  trigger a scroll under Playwright's simulated clicks — reproduced
+  identically on untouched desktop nav links, unrelated to any fix above,
+  not one of the 15 audited findings.
+
+---
+
 ## [1.1.0] - 2026-08-09
 
 ### Added

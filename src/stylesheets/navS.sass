@@ -9,7 +9,7 @@
         bottom: 2rem
         z-index: variables.$z-fab
         border-radius: 50%
-        box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1)
+        box-shadow: variables.$shadow-md
         font-size: 1.5rem
     button
         outline: none
@@ -21,7 +21,7 @@
     padding: 1rem 5rem!important
     z-index: variables.$z-nav
     background-color: variables.$background-color
-    box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1)
+    box-shadow: variables.$shadow-md
     @media (max-width:variables.$breakpoint-md)
         padding: 2.6rem 2rem!important
 
@@ -43,6 +43,33 @@
         @media (max-width:variables.$breakpoint-md)
             position: relative
 
+// Below `lg` the collapse is Bootstrap's default in-flow behavior, which
+// simply grows `.navbar`'s own (fixed) box taller — since page content
+// below never reflows to compensate, the expanded menu just silently sits
+// on top of whatever hero content happened to be there, with no clear
+// backdrop separating "menu" from "page". Making the open panel a fixed,
+// full-viewport overlay (its own stacking context, independent of the
+// toggler row's height) fixes both problems: the navbar itself stays
+// compact, and the menu becomes a proper full-screen overlay rather than
+// a growing box that partially exposes the page behind it.
+@media (max-width: variables.$breakpoint-lg)
+    // `!important` needed to beat Bootstrap's `.justify-content-end` utility
+    // class on the same element (used for the old inline layout) and its own
+    // `!important`.
+    #navbarText.show,
+    #navbarText.collapsing
+        position: fixed
+        inset: 0
+        z-index: variables.$z-nav
+        background-color: variables.$background-color
+        overflow-y: auto
+        display: flex !important
+        flex-direction: column !important
+        align-items: flex-start !important
+        justify-content: flex-start !important
+        margin-right: 0
+        padding: 9rem 2rem 3rem
+
 
 
 #logo
@@ -53,6 +80,9 @@
     position: absolute
     top: -0.5rem
     left: 9rem
+    // Same reasoning as .navbar-toggler above: keep the brand mark visible
+    // above the fixed full-screen menu panel when it's open.
+    z-index: variables.$z-fab
     @media (max-width:variables.$breakpoint-md)
         width: 5.4rem
         height: 5.4rem
@@ -77,6 +107,11 @@
     width: 44px
     height: 44px
     padding: 0
+    // The open menu panel below is `position: fixed`, which paints above any
+    // non-positioned sibling regardless of DOM order — without this the
+    // toggler (the only way to close the menu) would be hidden underneath it.
+    position: relative
+    z-index: variables.$z-fab
     border: 1.5px solid rgba(0, 0, 0, 0.1)
     border-radius: 0.8rem
     background-color: transparent

@@ -26,8 +26,8 @@
 .hero-inner
   display: flex
   align-items: center
-  justify-content: space-between
-  gap: 6rem
+  justify-content: center
+  gap: clamp(4rem, 8vw, 10rem)
 
   @media (max-width: v.$breakpoint-md)
     flex-direction: column-reverse
@@ -123,6 +123,12 @@
   a
     color: #6b6b6b
     transition: color 0.2s
+    // Visual icon size is set inline (MUI sx), so padding grows only the
+    // clickable/tappable area (WCAG 2.5.8 min 24x24) without changing how
+    // the icon looks or the row's visual spacing (negative margin offsets it).
+    padding: 0.7rem
+    margin: -0.7rem
+    display: inline-flex
 
     &:hover
       color: v.$primary-color

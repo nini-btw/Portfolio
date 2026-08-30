@@ -6,6 +6,7 @@ import SectionHeader from './subComponents/SectionHeader'
 import ProjectPanel, { ProjectPanelSkeleton } from './ProjectPanel'
 import ProjectNavDots from './subComponents/ProjectNavDots'
 import ProjectModal from './ProjectModal'
+import ImageLightbox from './ImageLightbox'
 import '../stylesheets/projectShowcaseS.sass'
 
 const SKELETON_COUNT = 3
@@ -13,7 +14,13 @@ const SKELETON_COUNT = 3
 export default function ProjectShowcase() {
   const { projects, loading, error } = useProjects()
   const [selectedProject, setSelectedProject] = useState(null)
+  const [lightbox, setLightbox] = useState(null) // { images, index, title } | null
   const wrapperRef = useRef(null)
+
+  const openLightbox = (images, index, title) => {
+    if (!images || images.length === 0) return
+    setLightbox({ images, index, title })
+  }
 
   const panelCount = loading ? SKELETON_COUNT : Math.max(projects.length, 1)
   const { activeIndex, scrollToIndex } = useScrollPin(wrapperRef, panelCount)
@@ -46,6 +53,13 @@ export default function ProjectShowcase() {
                   index={i}
                   isActive={i === activeIndex}
                   onOpen={setSelectedProject}
+                  onImageClick={(p) =>
+                    openLightbox(
+                      p.screenshots && p.screenshots.length > 0 ? p.screenshots : [p.thumbnail],
+                      0,
+                      p.title
+                    )
+                  }
                 />
               ))}
         </div>
@@ -65,6 +79,21 @@ export default function ProjectShowcase() {
             key={selectedProject._id}
             project={selectedProject}
             onClose={() => setSelectedProject(null)}
+            onImageClick={(index) =>
+              openLightbox(selectedProject.screenshots, index, selectedProject.title)
+            }
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {lightbox && (
+          <ImageLightbox
+            key="lightbox"
+            images={lightbox.images}
+            initialIndex={lightbox.index}
+            title={lightbox.title}
+            onClose={() => setLightbox(null)}
           />
         )}
       </AnimatePresence>

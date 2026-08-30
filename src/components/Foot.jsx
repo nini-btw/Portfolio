@@ -12,20 +12,12 @@ function Foot() {
       </div>
       <div className="footer-right">
         <a
-          href={SOCIAL_LINKS.facebook}
+          href={SOCIAL_LINKS.github}
           target="_blank"
           rel="noopener noreferrer"
-          className="facebook"
+          className="github"
         >
-          <Facebook />
-        </a>
-        <a
-          href={SOCIAL_LINKS.twitter}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="twitter"
-        >
-          <Twitter />
+          <GitHub />
         </a>
         <a
           href={SOCIAL_LINKS.linkedin}
@@ -36,12 +28,20 @@ function Foot() {
           <LinkedIn />
         </a>
         <a
-          href={SOCIAL_LINKS.github}
+          href={SOCIAL_LINKS.twitter}
           target="_blank"
           rel="noopener noreferrer"
-          className="github"
+          className="twitter"
         >
-          <GitHub />
+          <Twitter />
+        </a>
+        <a
+          href={SOCIAL_LINKS.facebook}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="facebook"
+        >
+          <Facebook />
         </a>
       </div>
     </footer>

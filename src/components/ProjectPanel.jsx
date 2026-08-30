@@ -23,7 +23,7 @@ const reducedItemVariants = {
   visible: { opacity: 1, transition: { duration: 0.3 } },
 }
 
-function ProjectPanel({ project, index, isActive, onOpen }) {
+function ProjectPanel({ project, index, isActive, onOpen, onImageClick }) {
   const shouldReduceMotion = useReducedMotion()
   const cVariants = shouldReduceMotion ? reducedContainerVariants : containerVariants
   const iVariants = shouldReduceMotion ? reducedItemVariants : itemVariants
@@ -85,7 +85,20 @@ function ProjectPanel({ project, index, isActive, onOpen }) {
           </motion.div>
         </motion.div>
 
-        <motion.div className="project-panel__media" variants={mediaVariants}>
+        <motion.div
+          className={`project-panel__media ${project.thumbnail ? 'project-panel__media--clickable' : ''}`}
+          variants={mediaVariants}
+          onClick={() => project.thumbnail && onImageClick(project)}
+          role={project.thumbnail ? 'button' : undefined}
+          tabIndex={project.thumbnail ? 0 : undefined}
+          aria-label={project.thumbnail ? `View ${project.title} screenshots full screen` : undefined}
+          onKeyDown={(e) => {
+            if (project.thumbnail && (e.key === 'Enter' || e.key === ' ')) {
+              e.preventDefault()
+              onImageClick(project)
+            }
+          }}
+        >
           {project.thumbnail ? (
             <img src={project.thumbnail} alt={project.title} />
           ) : (
@@ -115,6 +128,7 @@ ProjectPanel.propTypes = {
   index: PropTypes.number.isRequired,
   isActive: PropTypes.bool.isRequired,
   onOpen: PropTypes.func.isRequired,
+  onImageClick: PropTypes.func.isRequired,
 }
 
 export default ProjectPanel

@@ -1,3 +1,5 @@
+@use './variables' as v
+
 .footer
   height: 7rem
   display: flex
@@ -8,6 +10,16 @@
   color: #333 // Dark text color for contrast
   font-size: 1rem
   border-top: 1px solid #ddd // Subtle border for separation
+
+  // The fixed height only fits a single text line; below it the "Made with"
+  // line wraps to 2-3 lines and gets cramped against the icons, so stack
+  // instead of trying to hold everything on one row.
+  @media (max-width: v.$breakpoint-sm)
+    height: auto
+    flex-direction: column
+    gap: 1rem
+    padding: 1.6rem
+    text-align: center
 
   .footer-left
     p

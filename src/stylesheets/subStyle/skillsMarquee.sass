@@ -24,7 +24,7 @@
     font-weight: 700
     text-transform: uppercase
     letter-spacing: 0.06em
-    color: #999
+    color: #6b6b6b
 
 .marquee-viewport
   flex: 1 1 0%
@@ -32,6 +32,15 @@
   overflow: hidden
   mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)
   -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)
+
+  // The infinite marquee never settles and the edge mask permanently hides
+  // part of the first/last chip — fine as decoration on a pointer/hover
+  // device, but on touch there's no way to pause it, so content is never
+  // fully readable. Below md it becomes a plain static wrapped chip grid.
+  @media (max-width: v.$breakpoint-md)
+    overflow: visible
+    mask-image: none
+    -webkit-mask-image: none
 
 .marquee-track
   display: flex
@@ -44,15 +53,28 @@
   &:hover
     animation-play-state: paused
 
+  @media (max-width: v.$breakpoint-md)
+    width: 100%
+    flex-wrap: wrap
+    animation: none
+
 .marquee-chip
   padding: 0.8rem 1.6rem
   margin-right: 1.2rem
+  margin-bottom: 0.8rem
   font-size: 1.4rem
   background: rgba(0, 98, 185, 0.08)
   border-radius: 5px
   font-weight: 600
   color: v.$primary-color
   white-space: nowrap
+
+  // The track renders each category's chip list twice to fake a seamless
+  // loop — on mobile (static grid, no loop) the second copy would just show
+  // every skill twice, so it's dropped.
+  &--dup
+    @media (max-width: v.$breakpoint-md)
+      display: none
 
 @keyframes marquee
   from
