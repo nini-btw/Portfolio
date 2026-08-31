@@ -6,6 +6,16 @@ All notable changes to this project are tracked here. Format loosely follows
 ## [Unreleased]
 
 ### Fixed
+- **Case-study modal screenshots were cropping off content** — `.modal-screenshot`
+  used `object-fit: cover` in a fixed `16/10` tile, but the actual screenshots
+  are full-page browser captures at ~2.15-2.2:1, noticeably wider than that
+  tile. `cover` was cropping both edges to force the fit, cutting off nav
+  bars, logos, and headings (e.g. "NOTE" → "OTE", "VISAGE" → "AGE"). Switched
+  to `object-fit: contain` (never crops, letterboxes against the tile's
+  background instead) and widened the tile's `aspect-ratio` to `2.15/1` to
+  match the screenshots' actual ratio and minimize letterboxing for the
+  common case. Verified the full screenshot grid (desktop and mobile) and
+  the click-to-expand lightbox both render complete, uncropped images.
 - **Nav links didn't scroll — silently ate the click instead.** Root cause:
   the `HashLink`s in `NavBarP.jsx` carried `data-bs-toggle="collapse"
   data-bs-target="#navbarText"` (presumably meant to auto-close the mobile

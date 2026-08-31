@@ -138,16 +138,27 @@
   width: 100%
   padding: 0
   border: none
-  background: none
+  background: v.$surface-tint
   cursor: zoom-in
   border-radius: 1.2rem
+  overflow: hidden
 
 .modal-screenshot
   width: 100%
+  height: 100%
   border-radius: 1.2rem
   border: 1px solid #e8e8e8
-  object-fit: cover
-  aspect-ratio: 16 / 10
+  // `contain`, not `cover` — these are full-page browser screenshots
+  // (~2.15-2.2:1), noticeably wider than the grid tile's own aspect ratio.
+  // `cover` was cropping both edges, cutting off nav bars/logos/headings;
+  // `contain` always shows the complete, uncropped screenshot, letterboxed
+  // top/bottom against the tile's background where the ratios don't match.
+  object-fit: contain
+  // Widened from 16/10 to roughly match the actual screenshots' aspect
+  // ratio, so the common case sits with minimal letterboxing; outlier
+  // images (e.g. taller device-mockup thumbnails) still just letterbox
+  // instead of ever losing content.
+  aspect-ratio: 2.15 / 1
   transition: transform 0.2s ease
   display: block
 
