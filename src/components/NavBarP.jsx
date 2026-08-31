@@ -29,6 +29,22 @@ function useActiveSection() {
   return activeId;
 }
 
+// Closes the mobile menu (if open) after a nav link is clicked. Using
+// Bootstrap's own JS API here — rather than `data-bs-toggle="collapse"` on
+// the links themselves — matters: Bootstrap's collapse data-api attaches a
+// native click listener that calls `preventDefault()` on any element with
+// that attribute, which silently ate HashLink's own click handling (the
+// menu would animate open/closed, but the actual scroll-to-section never
+// ran, even on desktop where the collapse is always visually expanded).
+// Calling `.hide()` directly, from a plain onClick, closes the menu without
+// touching `preventDefault` at all, so HashLink's scroll still runs normally.
+function closeMobileMenu() {
+  const collapseEl = document.getElementById("navbarText");
+  const Collapse = window.bootstrap?.Collapse;
+  if (!collapseEl || !Collapse) return;
+  Collapse.getOrCreateInstance(collapseEl, { toggle: false }).hide();
+}
+
 function NavBarP() {
   const activeId = useActiveSection();
 
@@ -72,8 +88,7 @@ function NavBarP() {
                   to={to}
                   className="nav-link active"
                   aria-current={activeId === id ? "page" : undefined}
-                  data-bs-toggle="collapse"
-                  data-bs-target="#navbarText"
+                  onClick={closeMobileMenu}
                 >
                   {label}
                 </HashLink>

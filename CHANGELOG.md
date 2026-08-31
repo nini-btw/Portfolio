@@ -5,6 +5,27 @@ All notable changes to this project are tracked here. Format loosely follows
 
 ## [Unreleased]
 
+### Fixed
+- **Nav links didn't scroll — silently ate the click instead.** Root cause:
+  the `HashLink`s in `NavBarP.jsx` carried `data-bs-toggle="collapse"
+  data-bs-target="#navbarText"` (presumably meant to auto-close the mobile
+  menu on link click), but Bootstrap's JS is loaded globally via `<script>`
+  tags in `index.html`, and its collapse data-api attaches a native click
+  listener that calls `preventDefault()` on *any* element carrying that
+  attribute — at any viewport width, not just mobile. That silently killed
+  `HashLink`'s own click handling before it could scroll, while still
+  toggling the (always-visible-on-desktop) collapse's `.show` class, which
+  is exactly the "starts an animation on the navbar but nothing happens"
+  symptom. Confirmed by instrumenting `window.scrollTo`/`scrollIntoView`
+  (neither was ever called) and by stripping the `data-bs-*` attributes
+  live, which fixed it immediately. Fix: removed those attributes from the
+  links and close the mobile menu instead via Bootstrap's own JS API
+  (`window.bootstrap.Collapse`) from a plain `onClick`, which — unlike the
+  data-api — doesn't touch `preventDefault`, so `HashLink`'s scroll logic
+  runs normally. Verified on both desktop (link click scrolls, no
+  spurious collapse animation) and mobile (link click scrolls **and**
+  closes the open menu).
+
 ### Changed
 - Navbar logo (audit finding #15) rebuilt as a hand-authored SVG
   (`public/images/logo.svg`) replacing the old raster `logo.png`, this time
