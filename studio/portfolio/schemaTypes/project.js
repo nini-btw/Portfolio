@@ -27,6 +27,11 @@ export default {
       title: 'Display Order',
       type: 'number',
       description: 'Controls display position (1 = first). Lower numbers show first.',
+      initialValue: async (_, {getClient}) => {
+        const client = getClient({apiVersion: '2023-01-01'})
+        const maxOrder = await client.fetch(`*[_type == "project"] | order(order desc)[0].order`)
+        return (maxOrder || 0) + 1
+      },
       validation: (Rule) => Rule.required().integer().min(1),
     },
     {
